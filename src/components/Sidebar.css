@@ -1,0 +1,119 @@
+#sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 200px;
+  background-color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+/* Sidebar Content Wrapper */
+.sidebar-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sidebar Logo and Name */
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 15px;
+}
+
+.sidebar-logo-img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+.sidebar-logo-text {
+  font-size: 20px;
+  font-weight: bold;
+  color: #af93d7;
+}
+
+/* Sidebar Navigation */
+nav {
+  flex-grow: 1;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Sidebar Links */
+nav ul li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  display: flex; 
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  transition: color 0.3s ease-in-out;
+}
+
+nav ul li a:hover {
+  color: #af93d7;
+}
+
+.section-divider {
+  border-top: 1px solid #ddd;
+  margin: 15px 0;
+}
+
+.sidebar-user {
+  font-weight: bold;
+  text-align: center;
+  padding: 12px 0;
+  border-top: 1px solid #ddd;
+  margin-top: auto;
+  color: #333;
+  font-size: 14px;
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  width: 100%;
+}
+
+#sidebar hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 15px 0;
+  width: 100%;
+}
+
+/* Sidebar Icons */
+.sidebar-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+/* User Icon */
+.sidebar-user-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+
+
+
+
