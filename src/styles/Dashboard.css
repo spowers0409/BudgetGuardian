@@ -1,52 +1,98 @@
-/* Dashboard container */
 .dashboard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background-color: #f7f7f7;
-  }
-  
-  /* Widget container */
-  .dashboard-widgets {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    width: 100%;
-    max-width: 1200px;
-    padding: 20px;
-  }
-  
-  /* Individual Widget Cards */
-  .dashboard-card {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 23%;
-    min-width: 200px;
-    max-width: 250px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  /* Widget Title */
-  .dashboard-card h2 {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  
-  /* Monetary Value */
-  .dashboard-card .amount {
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  /* Percentage Change Notification */
-  .dashboard-card .change {
-    font-size: 14px;
-    color: gray;
-  }
-  
+  padding: 20px;
+}
+
+/* Dashboard Widget Layout */
+.dashboard-widgets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Individual Widget Cards */
+.dashboard-card {
+  position: relative;
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 150px;
+  padding-top: 10px;
+}
+
+.card-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 0px;
+  flex-shrink: 0;
+}
+
+/* Card Header */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+/* Widget Title */
+.dashboard-card h2 {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
+  text-align: center;
+}
+
+/* Monetary Value */
+.dashboard-card .amount {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin: 10px 0;
+}
+
+.percentage-container {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 100%;
+}
+
+/* Percentage Change */
+.percentage {
+  font-size: 12px;
+  color: gray;
+  opacity: 0.8;
+}
+
+/* Dashboard Charts Section (Rows 2, 3, 4) */
+.dashboard-charts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Individual Chart Cards */
+.chart-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.chart-card.wide {
+  grid-column: span 2;
+}
