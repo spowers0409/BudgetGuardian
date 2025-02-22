@@ -25,7 +25,7 @@ const Register = () => {
     }
 
     console.log("Registered:", formData);
-    navigate("/dashboard"); // Redirect after registration (adjust as needed)
+    navigate("/dashboard");
   };
 
   return (
