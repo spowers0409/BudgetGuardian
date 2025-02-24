@@ -16,7 +16,7 @@ function Sidebar() {
   return (
     <div id="sidebar">
       <div className="sidebar-logo">
-        <img src="/bglogo.png" alt="BudgetGuardian" className="sidebar-logo-img" />
+        <img src="/bglogo.png" alt="BudgetGuardian" className="no-invert-logo" />
         <span className="sidebar-logo-text">BudgetGuardian</span>
       </div>
       <hr className="section-divider" />
@@ -24,7 +24,7 @@ function Sidebar() {
         <ul>
           <li>
             <Link to="/">
-              <img src="/icons/dashboard.png" alt="Dashboard" className="sidebar-icon" /> Dashboard
+              <img src="/icons/dashboard.png" alt="Dashboard" className="no-invert-icon" /> Dashboard
             </Link>
           </li>
           <li>

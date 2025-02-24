@@ -8,14 +8,41 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
+  // const handleLogin = (e) => {
+  //   e.preventDefault();
+
+  //   Placeholder authentication check
+  //   if (email === "test@example.com" && password === "password123") {
+  //     navigate("/dashboard"); // Redirect to Dashboard on successful login
+  //   } else {
+  //     setError("Invalid email or password.");
+  //   }
+  // };
+
+  console.log("Sending data:", { email, password });
+
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Placeholder authentication check
-    if (email === "test@example.com" && password === "password123") {
-      navigate("/dashboard"); // Redirect to Dashboard on successful login
-    } else {
-      setError("Invalid email or password.");
+    try {
+      const response = await fetch("http://localhost:5000/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        navigate("/dashboard");
+      } else {
+        setError(data.error || "Invalid email or password.");
+      }
+      
+      } catch (err) {
+        console.log("Login failed:", err);
+        setError("An error ocurred. Please try again.")
     }
   };
 
@@ -47,21 +74,13 @@ const Login = () => {
             />
           </div>
 
-          {/* <button type="submit" className="login-btn">Login</button> */}
           <div className="button-container">
               <button type="submit" className="login-btn">Login</button>
           </div>
 
-          {/* <div className="register-link">
-            <p>Don't have an account?{" "}
-              <span className="register-btn" onClick={() => navigate("/register")}>Register</span>
-            </p>
-          </div> */}
-
           <div className="register-link">
             <p>Don't have an account? <span onClick={ () => navigate("/register") }>Register</span></p>
           </div>
-          
         </form>
       </div>
     </div>

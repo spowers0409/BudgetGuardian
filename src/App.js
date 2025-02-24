@@ -8,6 +8,9 @@ import Budget from "./pages/Budget";
 import Goals from "./pages/Goals";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Settings from "./pages/Settings";
+import { useState, useEffect } from "react";
+import "./global.css";
 
 function App() {
   const location = useLocation(); // Get current URL path
@@ -15,8 +18,20 @@ function App() {
   const hideSidebar = location.pathname.toLowerCase() === "/login" || location.pathname.toLowerCase() === "/register"; 
   console.log("Hide Sidebar:", hideSidebar); // Debugging log
 
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("darkMode") === "true";
+  });
+
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+  }, [darkMode]);
+
   return (
-    <div className="app-container">
+    <div className={`app-container ${darkMode ? "dark-mode" : ""}`}>
       {!hideSidebar && <Sidebar />} {/* Only show sidebar if NOT on login page */}
       <div className="content">
         <Routes>
@@ -28,6 +43,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/settings" element={<Settings setDarkMode={setDarkMode} darkMode={darkMode} />} />
         </Routes>
       </div>
     </div>

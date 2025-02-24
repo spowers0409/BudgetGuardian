@@ -28,7 +28,13 @@
   padding-bottom: 15px;
 }
 
-.sidebar-logo-img {
+/* .sidebar-logo-img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+} */
+
+.no-invert-logo {
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -100,6 +106,12 @@ nav ul li a:hover {
 
 /* Sidebar Icons */
 .sidebar-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.no-invert-icon {
   width: 24px;
   height: 24px;
   margin-right: 10px;

@@ -10,22 +10,22 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh; /* Ensure full screen height */
-    width: 100vw;  /* Ensure full screen width */
-    background-color: #f8f9fa; /* Light gray background */
-    position: absolute; /* Prevents interference from app-container */
+    height: 100vh;
+    width: 100vw;
+    background-color: #f8f9fa;
+    position: absolute;
     top: 0;
     left: 0;
   }
 
   .login-box {
-    background: #ffffff; /* White background like dashboard cards */
+    background: #ffffff;
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 100%;
-    max-width: 400px; /* Prevents it from stretching too wide */
+    max-width: 400px;
   }
   
   /* Login Title */
@@ -33,7 +33,7 @@
     font-size: 22px;
     font-weight: 600;
     text-align: center;
-    color: #333; /* Dark Gray */
+    color: #333;
   }
   
   /* Form Styling */
@@ -96,14 +96,14 @@
 
   .register-btn {
     font-weight: 600;
-    color: #af93d7; /* Accent color */
+    color: #af93d7;
     cursor: pointer;
   }
 
   .input-group label {
     font-size: 14px;
     font-weight: 600;
-    color: #555; /* Medium Gray */
+    color: #555;
   }
 
   .input-group input {

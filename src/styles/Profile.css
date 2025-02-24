@@ -1,0 +1,88 @@
+/* Profile Page Styling */
+.profile-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: background 0.3s ease, color 0.3s ease;
+    max-width: 600px;
+    width: 100%;
+}
+
+.profile-card h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.profile-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f4f4f4;
+    transition: background 0.3s ease;
+}
+
+.profile-item label {
+    font-size: 16px;
+    font-weight: bold;
+    columns: #333;
+}
+
+.profile-item span {
+    font-size: 16px;
+    color: #555;
+}
+
+.profile-button {
+    padding: 8px 15px;
+    background-color: #af93d7;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.profile-button:hover {
+    background-color: #9678c4;
+}
+
+.profile-item.password-item {
+    background-color: white;
+    justify-content: center;
+}
+
+/* Only the password button */
+.profile-item-password {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: white;
+    transition: background 0.3s ease;
+}
+
+.change-password {
+    width: 30%;
+    margin-top: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
