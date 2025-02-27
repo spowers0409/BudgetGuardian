@@ -7,7 +7,8 @@ const pool = require("./db");
 const app = express();
 
 const corsOptions = {
-    origin: "http://localhost:3000",
+    // origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://your-vercel-url.vercel.app"], // Added Vercel
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
 };
@@ -159,7 +160,8 @@ app.post("/api/budgets", async (req, res) => {
 
 // Middleware to verify JWT and extract user ID
 const authenticateUser = (req, res, next) => {
-    const token = req.header("Authorization")?.split(" ")[1];
+    // const token = req.header("Authorization")?.split(" ")[1];
+    const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
         return res.status(401).json({ error: "Unauthorized - No token provided" });
@@ -201,5 +203,5 @@ app.get("/api/user", authenticateUser, async (req, res) => {
 });
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10000; // Previously 5000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
