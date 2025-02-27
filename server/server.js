@@ -11,6 +11,7 @@ const corsOptions = {
     origin: ["http://localhost:3000", "https://budgetguardian.vercel.app"], // Added Vercel
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(cors(corsOptions));
