@@ -14,7 +14,8 @@ const Transactions = () => {
 
   // Fetch transactions from backend API
   useEffect(() => {
-    fetch("http://localhost:5000/api/transactions")
+    // fetch("http://localhost:5000/api/transactions")
+    fetch("https://budgetguardian-backend.onrender.com/api/transactions") // Render URL
       .then((response) => response.json())
       .then((data) => setTransactions(data))
       .catch((error) => console.error("Error fetching transactions:", error));
@@ -22,7 +23,8 @@ const Transactions = () => {
 
   // Fetch budget categories from backend API
   useEffect(() => {
-    fetch("http://localhost:5000/api/budget-categories")
+    // fetch("http://localhost:5000/api/budget-categories")
+    fetch("https://budgetguardian-backend.onrender.com/api/budget-categories") // Render URL
       .then((response) => response.json())
       .then((data) => setBudgetCategories(data.map((item) => item.category)))
       .catch((error) => console.error("Error fetching budget categories:", error));
@@ -35,7 +37,8 @@ const Transactions = () => {
       return;
     }
 
-    fetch("http://localhost:5000/api/transactions", {
+    // fetch("http://localhost:5000/api/transactions", {
+      fetch("https://budgetguardian-backend.onrender.com/api/transactions", { // Render URL
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newTransaction),

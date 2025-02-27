@@ -16,7 +16,8 @@ const Profile = () => {
         const token = localStorage.getItem("token"); // Ensure token is retrieved
         console.log("Fetching user data with token:", token);
 
-        const response = await fetch("http://localhost:5000/api/user", {  // Ensure correct URL
+        // const response = await fetch("http://localhost:5000/api/user", {  // Ensure correct URL
+        const response = await fetch("https://budgetguardian-backend.onrender.com/api/user", { // Render URL
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${token}`,

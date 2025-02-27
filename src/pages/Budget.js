@@ -12,7 +12,8 @@ const Budget = () => {
 
   // Fetch budgets from the backend when the component loads
   useEffect(() => {
-    fetch("http://localhost:5000/api/budgets")
+    // fetch("http://localhost:5000/api/budgets")
+    fetch("https://budgetguardian-backend.onrender.com/api/budgets")
       .then((response) => response.json())
       .then((data) => {
         console.log("Fetched Budgets:", data);
@@ -30,7 +31,8 @@ const Budget = () => {
 
     const budgetAmount = parseFloat(newBudget.budgeted);
 
-    fetch("http://localhost:5000/api/budgets", {
+    // fetch("http://localhost:5000/api/budgets", {
+      fetch("https://budgetguardian-backend.onrender.com/api/budgets", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
