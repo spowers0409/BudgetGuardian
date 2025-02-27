@@ -216,6 +216,35 @@ app.get("/api/user", authenticateUser, async (req, res) => {
     }
 });
 
+// Updating logged in user name from name change modal
+app.put("/api/user/update-name", authenticateUser, async (req, res) => {
+    try {
+        const userId = req.user.userID;
+        const { newName } = req.body;
+
+        if (!newName || newName.trim() === "") {
+            return res.status(400).json({ error: "New name cannot be empty." });
+        }
+
+        // Update the user's name in the database
+        const result = await pool.query(
+            `UPDATE "user" SET full_name = $1 WHERE userID = $2 RETURNING full_name`,
+            [newName, userId]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "User not found." });
+        }
+
+        console.log("Name updated successfully:", result.rows[0].full_name);
+        res.json({ message: "Name updated successfully", full_name: result.rows[0].full_name });
+
+    } catch (error) {
+        console.error("Error updating name:", error);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
 
 const PORT = process.env.PORT || 10000; // Previously 5000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

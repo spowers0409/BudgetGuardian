@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Profile.css";
+import ChangeNameModal from "../components/ChangeNameModal"
 
 const Profile = () => {
     const [user, setUser] = useState({ name: "", email: "" });
@@ -54,7 +55,9 @@ const Profile = () => {
     }
 };
   
-  
+const handleUpdateName = (newName) => {
+    setUser((prev) => ({...prev, name: newName }));
+};
 
   
 
@@ -85,44 +88,17 @@ const Profile = () => {
                     </button>
                 </div>
             </div>
+            {showNameModal && (
+                <ChangeNameModal
+                    isOpen={showNameModal}
+                    onClose={() => setShowNameModal(false)}
+                    currentName={user.name}
+                    onNameChange={(updatedName) => setUser({ ...user, name: updatedName })}
+                    />
+            )}
         </div>
+        
     );
 };
 
 export default Profile;
-
-
-
-// import React, { useState } from "react";
-// import "../styles/Profile.css";
-
-// const Profile = () => {
-//   const [name, setName] = useState("Test Tester");
-//   const [email, setEmail] = useState("test@tester.com");
-
-//   return (
-//     <div className="profile-container">
-//       <div className="profile-card">
-//         <h2>Profile</h2>
-
-//         <div className="profile-item">
-//           <label>Name:</label>
-//           <span>{name}</span>
-//           <button className="profile-button">Change Name</button>
-//         </div>
-
-//         <div className="profile-item">
-//           <label>Email:</label>
-//           <span>{email}</span>
-//           <button className="profile-button">Change Email</button>
-//         </div>
-
-//         <div className="profile-item-password">
-//           <button className="profile-button change-password">Change Password</button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Profile;
