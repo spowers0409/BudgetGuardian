@@ -2,7 +2,7 @@
 
 **BudgetGuardian** is a simple and efficient budget management application designed to help users track their expenses, categorize transactions, and manage budgets effortlessly.
 
-## 🚀 Live Deployment
+## 🚀 Pre-Production Deployment
 
 - **Frontend:** [BudgetGuardian on Vercel](https://budgetguardian.vercel.app)
 - **Backend:** [BudgetGuardian API on Render](https://budgetguardian-backend.onrender.com)
