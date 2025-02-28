@@ -220,16 +220,19 @@ app.get("/api/user", authenticateUser, async (req, res) => {
 app.put("/api/user/update-name", authenticateUser, async (req, res) => {
     try {
         const userId = req.user.userID;
-        const { newName } = req.body;
+        // const { newName } = req.body;
+        const { full_name } = req.body;
 
-        if (!newName || newName.trim() === "") {
+        // if (!newName || newName.trim() === "") {
+            if (!full_name || full_name.trim() === "") {
             return res.status(400).json({ error: "New name cannot be empty." });
         }
 
         // Update the user's name in the database
         const result = await pool.query(
             `UPDATE "user" SET full_name = $1 WHERE userID = $2 RETURNING full_name`,
-            [newName, userId]
+            // [newName, userId]
+            [full_name, userId]
         );
 
         if (result.rows.length === 0) {

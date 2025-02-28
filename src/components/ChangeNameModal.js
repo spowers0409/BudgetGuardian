@@ -20,6 +20,7 @@ const ChangeNameModal = ({ isOpen, onClose, currentName, onNameChange }) => {
                     "Authorization": `Bearer ${token}`,
                 },
                 body: JSON.stringify({ full_name: newName }),
+                // body: JSON.stringify({ newName: newName }),
             });
 
             if (response.ok) {
