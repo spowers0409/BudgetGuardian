@@ -287,7 +287,7 @@ app.put("/api/user/update-email", authenticateUser, async (req, res) => {
 app.put("/api/user/update-password", authenticateUser, async (req, res) => {
     try {
         const userId = req.user.userID;
-        const { current_password, new_password } = req.body; // Must match DB field exactly
+        const { current_password, new_password } = req.body;
 
         if (!current_password || !new_password) {
             return res.status(400).json({ error: "All fields are required." });
@@ -305,19 +305,15 @@ app.put("/api/user/update-password", authenticateUser, async (req, res) => {
 
         const storedPassword = userQuery.rows[0].password_hash;
 
-        // Compare entered current password with the stored hashed password
-        const passwordMatch = await bcrypt.compare(current_password, storedPassword);
-        if (!passwordMatch) {
+        // Compare entered current password with the stored password (PLAIN TEXT for MVP)
+        if (current_password !== storedPassword) {
             return res.status(401).json({ error: "Current password is incorrect." });
         }
 
-        // Hash the new password
-        const hashedNewPassword = await bcrypt.hash(new_password, 10);
-
-        // Update the password in the database
+        // Update the password in the database (PLAIN TEXT for MVP)
         const result = await pool.query(
             `UPDATE "user" SET password_hash = $1 WHERE userID = $2 RETURNING userID`,
-            [hashedNewPassword, userId]
+            [new_password, userId]
         );
 
         if (result.rows.length === 0) {
@@ -332,6 +328,7 @@ app.put("/api/user/update-password", authenticateUser, async (req, res) => {
         res.status(500).json({ error: "Server error" });
     }
 });
+
 
 const PORT = process.env.PORT || 10000; // Previously 5000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
