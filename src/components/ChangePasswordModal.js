@@ -35,7 +35,7 @@ const ChangePasswordModal = ({ isOpen, onClose, onPasswordChange }) => {
                 setSuccessMessage("Password Changed Successfully!");
                 setTimeout(() => {
                     setSuccessMessage("");
-                    onPasswordChange();
+                    // onPasswordChange(); // May be causing the modal to not close
                     onClose();
                 }, 1500);
             } else {
