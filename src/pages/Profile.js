@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Profile.css";
 import ChangeNameModal from "../components/ChangeNameModal"
+import ChangeEmailModal from "../components/ChangeEmailModal";
+
 
 const Profile = () => {
     const [user, setUser] = useState({ name: "", email: "" });
@@ -95,6 +97,14 @@ const handleUpdateName = (newName) => {
                     currentName={user.name}
                     onNameChange={(updatedName) => setUser({ ...user, name: updatedName })}
                     />
+            )}
+            {showEmailModal && (
+                <ChangeEmailModal
+                    isOpen={showEmailModal}
+                    onClose={() => setShowEmailModal(false)}
+                    currentEmail={user.email}
+                    onEmailChange={(updatedEmail) => setUser({ ...user, email: updatedEmail })}
+                />
             )}
         </div>
         

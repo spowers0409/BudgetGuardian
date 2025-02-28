@@ -247,7 +247,42 @@ app.put("/api/user/update-name", authenticateUser, async (req, res) => {
         res.status(500).json({ error: "Server error" });
     }
 });
+app.put("/api/user/update-email", authenticateUser, async (req, res) => {
+    try {
+        const userId = req.user.userID;
+        const { email } = req.body;
 
+        if (!email || !email.includes("@")) {
+            return res.status(400).json({ error: "Invalid email format." });
+        }
+
+        // Check if email already exists
+        const emailCheck = await pool.query(
+            `SELECT email FROM "user" WHERE email = $1`,
+            [email]
+        );
+        if (emailCheck.rows.length > 0) {
+            return res.status(400).json({ error: "Email already in use." });
+        }
+
+        // Update the email in the database
+        const result = await pool.query(
+            `UPDATE "user" SET email = $1 WHERE userID = $2 RETURNING email`,
+            [email, userId]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "User not found." });
+        }
+
+        console.log("Email updated successfully:", result.rows[0].email);
+        res.json({ message: "Email updated successfully", email: result.rows[0].email });
+
+    } catch (error) {
+        console.error("Error updating email:", error);
+        res.status(500).json({ error: "Server error" });
+    }
+});
 
 const PORT = process.env.PORT || 10000; // Previously 5000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
