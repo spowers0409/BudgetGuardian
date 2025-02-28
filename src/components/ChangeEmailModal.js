@@ -1,49 +1,39 @@
 import React, { useState } from "react";
 import "../styles/Profile.css";
 
-const ChangePasswordModal = ({ isOpen, onClose, onPasswordChange }) => {
-    const [currentPassword, setCurrentPassword] = useState("");
-    const [newPassword, setNewPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+const ChangeEmailModal = ({ isOpen, onClose, currentEmail, onEmailChange }) => {
+    const [newEmail, setNewEmail] = useState(currentEmail || "");
     const [successMessage, setSuccessMessage] = useState("");
 
     const handleSubmit = async () => {
-        if (!currentPassword || !newPassword || !confirmPassword) {
-            alert("All fields are required.");
-            return;
-        }
-
-        if (newPassword !== confirmPassword) {
-            alert("New passwords do not match.");
+        if (!newEmail.trim() || !newEmail.includes("@")) {
+            alert("Please enter a valid email.");
             return;
         }
 
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch("https://budgetguardian-backend.onrender.com/api/user/update-password", {
+            const response = await fetch("https://budgetguardian-backend.onrender.com/api/user/update-email", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`,
                 },
-                body: JSON.stringify({
-                    current_password: currentPassword,
-                    new_password: newPassword,
-                }),
+                body: JSON.stringify({ email: newEmail }),
             });
 
             if (response.ok) {
-                setSuccessMessage("Password Changed Successfully!");
+                setSuccessMessage("Email Changed Successfully!");
                 setTimeout(() => {
                     setSuccessMessage("");
-                    onPasswordChange();
+                    onEmailChange(newEmail);
                     onClose();
                 }, 1500);
             } else {
-                alert("Error updating password. Please check your current password and try again.");
+                alert("Error updating email. Please try again.");
             }
         } catch (error) {
-            console.error("Error updating password:", error);
+            console.error("Error updating email:", error);
             alert("An error occurred. Please try again later.");
         }
     };
@@ -53,30 +43,16 @@ const ChangePasswordModal = ({ isOpen, onClose, onPasswordChange }) => {
     return (
         <div className="modal-overlay">
             <div className="modal-container">
-                <h2>Change Password</h2>
+                <h2>Change Email</h2>
                 {successMessage ? (
                     <p className="success-message">{successMessage}</p>
                 ) : (
                     <>
                         <input
-                            type="password"
-                            value={currentPassword}
-                            onChange={(e) => setCurrentPassword(e.target.value)}
-                            placeholder="Current Password"
-                            className="modal-input"
-                        />
-                        <input
-                            type="password"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                            placeholder="New Password"
-                            className="modal-input"
-                        />
-                        <input
-                            type="password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            placeholder="Confirm New Password"
+                            type="email"
+                            value={newEmail}
+                            onChange={(e) => setNewEmail(e.target.value)}
+                            placeholder="Enter new email"
                             className="modal-input"
                         />
                         <button className="modal-submit-btn" onClick={handleSubmit}>Submit</button>
@@ -88,4 +64,4 @@ const ChangePasswordModal = ({ isOpen, onClose, onPasswordChange }) => {
     );
 };
 
-export default ChangePasswordModal;
+export default ChangeEmailModal;

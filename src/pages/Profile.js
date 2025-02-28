@@ -111,7 +111,7 @@ const handleUpdateName = (newName) => {
             {showPasswordModal && (
                 <ChangePasswordModal
                     isOpen={showPasswordModal}
-                    onClose={() => setShowPasswordModal}
+                    onClose={() => setShowPasswordModal(false)}
                 />
             )}
         </div>
