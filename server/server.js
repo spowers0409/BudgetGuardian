@@ -3,6 +3,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const pool = require("./db");
+const bcrypt = require("bcryptjs");
 
 const app = express();
 
@@ -280,6 +281,54 @@ app.put("/api/user/update-email", authenticateUser, async (req, res) => {
 
     } catch (error) {
         console.error("Error updating email:", error);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+app.put("/api/user/update-password", authenticateUser, async (req, res) => {
+    try {
+        const userId = req.user.userID;
+        const { current_password, new_password } = req.body; // Must match DB field exactly
+
+        if (!current_password || !new_password) {
+            return res.status(400).json({ error: "All fields are required." });
+        }
+
+        // Fetch user's current password from the database
+        const userQuery = await pool.query(
+            `SELECT password_hash FROM "user" WHERE userID = $1`,
+            [userId]
+        );
+
+        if (userQuery.rows.length === 0) {
+            return res.status(404).json({ error: "User not found." });
+        }
+
+        const storedPassword = userQuery.rows[0].password_hash;
+
+        // Compare entered current password with the stored hashed password
+        const passwordMatch = await bcrypt.compare(current_password, storedPassword);
+        if (!passwordMatch) {
+            return res.status(401).json({ error: "Current password is incorrect." });
+        }
+
+        // Hash the new password
+        const hashedNewPassword = await bcrypt.hash(new_password, 10);
+
+        // Update the password in the database
+        const result = await pool.query(
+            `UPDATE "user" SET password_hash = $1 WHERE userID = $2 RETURNING userID`,
+            [hashedNewPassword, userId]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "User not found." });
+        }
+
+        console.log("Password updated successfully for user:", userId);
+        res.json({ message: "Password updated successfully" });
+
+    } catch (error) {
+        console.error("Error updating password:", error);
         res.status(500).json({ error: "Server error" });
     }
 });

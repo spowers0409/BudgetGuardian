@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../styles/Profile.css";
 
-const ChangePasswordModal = ({ isOpen, onClose, onPasswordChange }) => {
+const ChangePasswordModal = ({ isOpen, onClose }) => {
     const [currentPassword, setCurrentPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -36,7 +36,6 @@ const ChangePasswordModal = ({ isOpen, onClose, onPasswordChange }) => {
                 setSuccessMessage("Password Changed Successfully!");
                 setTimeout(() => {
                     setSuccessMessage("");
-                    onPasswordChange();
                     onClose();
                 }, 1500);
             } else {

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "../styles/Profile.css";
 import ChangeNameModal from "../components/ChangeNameModal"
 import ChangeEmailModal from "../components/ChangeEmailModal";
+import ChangePasswordModal from "../components/ChangePasswordModal";
+
 
 
 const Profile = () => {
@@ -104,6 +106,12 @@ const handleUpdateName = (newName) => {
                     onClose={() => setShowEmailModal(false)}
                     currentEmail={user.email}
                     onEmailChange={(updatedEmail) => setUser({ ...user, email: updatedEmail })}
+                />
+            )}
+            {showPasswordModal && (
+                <ChangePasswordModal
+                    isOpen={showPasswordModal}
+                    onClose={() => setShowPasswordModal}
                 />
             )}
         </div>
