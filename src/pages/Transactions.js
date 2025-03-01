@@ -34,12 +34,32 @@ const Transactions = () => {
   //     .catch((error) => console.error("Error fetching budget categories:", error));
   // }, []);
 
+//   useEffect(() => {
+//     fetch("https://budgetguardian-backend.onrender.com/api/budget-categories")
+//         .then((response) => response.json())
+//         .then((data) => setBudgetCategories(data))
+//         .catch((error) => console.error("Error fetching budget categories:", error));
+// }, []);
+
   useEffect(() => {
-    fetch("https://budgetguardian-backend.onrender.com/api/budget-categories")
-        .then((response) => response.json())
-        .then((data) => setBudgetCategories(data))
-        .catch((error) => console.error("Error fetching budget categories:", error));
-}, []);
+    const fetchBudgetCategories = async () => {
+      try {
+        const response = await fetch("https://budgetguardian-backend.onrender.com/api/budget-categories");
+        const data = await response.json();
+
+        let categories = data.map((item) => item.category);
+
+        if (!categories.includes("Income")) {
+          categories = ["Income", ...categories];
+        }
+
+        setBudgetCategories(categories);
+      } catch (error) {
+        console.error("Error fetching budget categories:", error)
+      }
+    };
+    fetchBudgetCategories();
+  })
 
 
   // Function to add a new transaction
