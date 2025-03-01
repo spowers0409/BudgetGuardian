@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const pool = require("./db");
 const bcrypt = require("bcryptjs");
+const dashboardRoutes = require("./dashboardRoutes");
+
 
 const app = express();
 
@@ -361,6 +363,8 @@ const ensureIncomeBudget = async () => {
 };
 
 ensureIncomeBudget();
+
+app.use("/api/dashboard", dashboardRoutes);
 
 const PORT = process.env.PORT || 10000; // Previously 5000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
