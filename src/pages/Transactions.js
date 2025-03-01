@@ -22,17 +22,25 @@ const Transactions = () => {
   }, []);
 
   // Fetch budget categories from backend API
+  // useEffect(() => {
+  //   // fetch("http://localhost:5000/api/budget-categories")
+  //   fetch("https://budgetguardian-backend.onrender.com/api/budget-categories") // Render URL
+  //     .then((response) => response.json())
+  //     // .then((data) => setBudgetCategories(data.map((item) => item.category))) // Before adding 'income'
+  //     .then((data) => {
+  //       const categories = data.map((item) => item.category);
+  //       setBudgetCategories(["Income", ...categories]);
+  //     })
+  //     .catch((error) => console.error("Error fetching budget categories:", error));
+  // }, []);
+
   useEffect(() => {
-    // fetch("http://localhost:5000/api/budget-categories")
-    fetch("https://budgetguardian-backend.onrender.com/api/budget-categories") // Render URL
-      .then((response) => response.json())
-      // .then((data) => setBudgetCategories(data.map((item) => item.category))) // Before adding 'income'
-      .then((data) => {
-        const categories = data.map((item) => item.category);
-        setBudgetCategories(["Income", ...categories]);
-      })
-      .catch((error) => console.error("Error fetching budget categories:", error));
-  }, []);
+    fetch("https://budgetguardian-backend.onrender.com/api/budget-categories")
+        .then((response) => response.json())
+        .then((data) => setBudgetCategories(data))
+        .catch((error) => console.error("Error fetching budget categories:", error));
+}, []);
+
 
   // Function to add a new transaction
   const handleAddTransaction = () => {
