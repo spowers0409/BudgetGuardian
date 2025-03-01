@@ -14,13 +14,18 @@ const corsOptions = {
     origin: ["http://localhost:3000", "https://budgetguardian.vercel.app"], // Added Vercel
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
+    // allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
+    exposedHeaders: ["Content-Length", "Content-Type"],
 };
 
+app.use(cors(corsOptions));
+
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", req.headers.origin);
+    // res.header("Access-Control-Allow-Origin", req.headers.origin);
+    res.header("Access-Control-Allow-Origin", req-headers.origin || '*'); // Testing routes
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Cache-Control");
     res.header("Access-Control-Allow-Credentials", "true");
 
     if (req.method === "OPTIONS") {
@@ -117,19 +122,36 @@ app.get("/api/transactions", async (req, res) => {
 });
 
 // Add a new transaction
+// Add a new transaction
 app.post("/api/transactions", async (req, res) => {
     try {
-        const { transaction_date, category, place, amount } = req.body;
+        const { transaction_date, category, place, amount, type } = req.body;
+
+        console.log("📥 Incoming Transaction Data:", req.body); // Log what frontend is sending
+
+        // Validate type (should be either 'income' or 'expense')
+        if (!['income', 'expense'].includes(type)) {
+            return res.status(400).json({ error: "Invalid transaction type. Must be 'income' or 'expense'." });
+        }
+
         const newTransaction = await pool.query(
-            "INSERT INTO transaction (transaction_date, category, place, amount) VALUES ($1, $2, $3, $4) RETURNING *",
-            [transaction_date, category, place, amount]
+            "INSERT INTO transaction (transaction_date, category, place, amount, type) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+            [transaction_date, category, place, amount, type]
         );
+
+        console.log("✅ Transaction Saved in DB:", newTransaction.rows[0]); // Log what DB actually saves
+
         res.json(newTransaction.rows[0]);
     } catch (err) {
-        console.error("Error adding transaction:", err.message);
+        console.error("❌ Error adding transaction:", err.message);
         res.status(500).send("Server Error");
     }
 });
+
+
+
+
+
 
 // Get all unique budget categories for transactions
 // app.get("/api/budget-categories", async (req, res) => {

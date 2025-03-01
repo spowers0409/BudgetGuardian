@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const db = require("./db"); // Database connection
+// const db = require("./db"); // Database connection
+const pool = require("./db")
 
 // Get total balance and percentage change
 router.get("/total-balance", async (req, res) => {
@@ -12,10 +13,10 @@ router.get("/total-balance", async (req, res) => {
 
         // Fetch income and expenses
         const totalIncomeResult = await pool.query(
-            `SELECT COALESCE(SUM(amount), 0) AS total_income FROM transactions WHERE type = 'income'`
+            `SELECT COALESCE(SUM(amount), 0) AS total_income FROM transaction WHERE type = 'income'`
         );
         const totalExpensesResult = await pool.query(
-            `SELECT COALESCE(SUM(amount), 0) AS total_expenses FROM transactions WHERE type != 'income'`
+            `SELECT COALESCE(SUM(amount), 0) AS total_expenses FROM transaction WHERE type != 'income'`
         );
 
         const totalIncome = parseFloat(totalIncomeResult.rows[0].total_income);
@@ -23,13 +24,29 @@ router.get("/total-balance", async (req, res) => {
         const totalBalance = totalIncome - totalExpenses;
 
         // Fetch previous month's balance
-        const previousBalanceResult = await pool.query(`
-            SELECT COALESCE(SUM(amount), 0) AS previous_balance 
-            FROM transactions 
-            WHERE transaction_date >= date_trunc('month', CURRENT_DATE - INTERVAL '1 month') 
+        // const previousBalanceResult = await pool.query(`
+        //     SELECT COALESCE(SUM(amount), 0) AS previous_balance 
+        //     FROM transaction 
+        //     WHERE transaction_date >= date_trunc('month', CURRENT_DATE - INTERVAL '1 month') 
+        //     AND transaction_date < date_trunc('month', CURRENT_DATE)
+        // `);
+        // const previousBalance = parseFloat(previousBalanceResult.rows[0].previous_balance);
+        const previousIncomeResult = await pool.query(`
+            SELECT COALESCE(SUM(amount), 0) AS previous_income
+            FROM transaction
+            WHERE type = 'income'
+            AND transaction_date >= date_trunc('month', CURRENT_DATE - INTERVAL '1 month')
             AND transaction_date < date_trunc('month', CURRENT_DATE)
         `);
-        const previousBalance = parseFloat(previousBalanceResult.rows[0].previous_balance);
+        const previousExpensesResult = await pool.query(`
+            SELECT COALESCE(SUM(amount), 0) AS previous_expenses
+            FROM transaction
+            WHERE type != 'income'
+            AND transaction_date >= date_trunc('month', CURRENT_DATE - INTERVAL '1 month')
+            AND transaction_date < date_trunc('month', CURRENT_DATE)
+        `);
+        const previousBalance = parseFloat(previousIncomeResult.rows[0].previous_income) - parseFloat(previousExpensesResult.rows[0].previous_expenses);
+        
 
         // Calculate percentage change
         const percentageChange = previousBalance !== 0

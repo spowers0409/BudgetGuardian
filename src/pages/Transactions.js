@@ -42,6 +42,7 @@ const Transactions = () => {
 // }, []);
 
   useEffect(() => {
+    console.log("🔥 useEffect triggered!");
     const fetchBudgetCategories = async () => {
       try {
         const response = await fetch("https://budgetguardian-backend.onrender.com/api/budget-categories");
@@ -55,34 +56,41 @@ const Transactions = () => {
 
         setBudgetCategories(categories);
       } catch (error) {
-        console.error("Error fetching budget categories:", error)
-      }
+          console.error("Error fetching budget categories:", error)
+        }
     };
     fetchBudgetCategories();
-  })
+  }, []);
 
 
   // Function to add a new transaction
   const handleAddTransaction = () => {
     if (!newTransaction.transaction_date || !newTransaction.category || !newTransaction.place || !newTransaction.amount) {
-      alert("Please fill out all fields.");
-      return;
+        alert("Please fill out all fields.");
+        return;
     }
 
-    // fetch("http://localhost:5000/api/transactions", {
-      fetch("https://budgetguardian-backend.onrender.com/api/transactions", { // Render URL
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newTransaction),
+    // Determine transaction type based on category
+    const incomeCategories = ["Income", "Salary", "Paycheck", "Bonus"]; // Expand this list if needed
+    const transactionType = incomeCategories.includes(newTransaction.category) ? "income" : "expense";
+
+    fetch("https://budgetguardian-backend.onrender.com/api/transactions", { // Backend API
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            ...newTransaction,  // Keep existing fields
+            type: transactionType // ✅ Add type field
+        }),
     })
-      .then((response) => response.json())
-      .then((data) => {
+    .then((response) => response.json())
+    .then((data) => {
         setTransactions([data, ...transactions]);
-        setNewTransaction({ transaction_date: "", category: "", place: "", amount: "" });
+        setNewTransaction({ transaction_date: "", category: "", place: "", amount: "", type: "" }); // Reset form
         setIsModalOpen(false);
-      })
-      .catch((error) => console.error("Error adding transaction:", error));
+    })
+    .catch((error) => console.error("Error adding transaction:", error));
   };
+
 
   return (
     <div className="transactions-page">

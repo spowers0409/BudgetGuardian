@@ -11,7 +11,8 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchTotalBalance = async () => {
         try {
-            const response = await fetch("/api/dashboard/total-balance", {
+            // const response = await fetch("/api/dashboard/total-balance", {
+                const response = await fetch("http://localhost:10000/api/dashboard/total-balance", {
                 method: "GET",
                 headers: {
                     "Cache-Control": "no-cache, no-store, must-revalidate",
