@@ -337,6 +337,20 @@ app.put("/api/user/update-password", authenticateUser, async (req, res) => {
     }
 });
 
+const ensureIncomeBudget = async () => {
+    try {
+        await pool.query(
+            `INSERT INTO budget (category, budgeted, spent)
+             VALUES ('Income', 0, 0)
+             ON CONFLICT (category) DO NOTHING;`
+        );
+        console.log("✅ 'Income' category ensured in budget table.");
+    } catch (error) {
+        console.error("Error ensuring 'Income' category:", error);
+    }
+};
+
+ensureIncomeBudget();
 
 const PORT = process.env.PORT || 10000; // Previously 5000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
