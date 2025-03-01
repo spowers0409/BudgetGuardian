@@ -26,7 +26,11 @@ const Transactions = () => {
     // fetch("http://localhost:5000/api/budget-categories")
     fetch("https://budgetguardian-backend.onrender.com/api/budget-categories") // Render URL
       .then((response) => response.json())
-      .then((data) => setBudgetCategories(data.map((item) => item.category)))
+      // .then((data) => setBudgetCategories(data.map((item) => item.category))) // Before adding 'income'
+      .then((data) => {
+        const categories = data.map((item) => item.category);
+        setBudgetCategories(["Income", ...categories]);
+      })
       .catch((error) => console.error("Error fetching budget categories:", error));
   }, []);
 
@@ -81,7 +85,7 @@ const Transactions = () => {
           </thead>
           <tbody>
             {transactions.map((tx, index) => (
-              <tr key={index}>
+              <tr key={index} className={tx.category === "Income" ? "income-row" : ""}> 
                 <td>{new Date(tx.transaction_date).toLocaleDateString()}</td>
                 <td>{tx.category}</td>
                 <td>{tx.place}</td>

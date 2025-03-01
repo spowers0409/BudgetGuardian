@@ -43,6 +43,11 @@ function Sidebar() {
               Goals
             </Link>
           </li>
+          <li>
+            <Link to="/reports">
+              <img src="/icons/reports.png" alt="Transactions" className="sidebar-icon" /> Reports
+            </Link>
+          </li>
           <hr className="section-divider" />
           <li>
             <Link to="/settings">

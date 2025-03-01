@@ -9,6 +9,7 @@ import Goals from "./pages/Goals";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Settings from "./pages/Settings";
+import Reports from "./pages/Reports";
 import { useState, useEffect } from "react";
 import "./global.css";
 
@@ -39,6 +40,7 @@ function App() {
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/budget" element={<Budget />} />
           <Route path="/goals" element={<Goals />} />
+          <Route path="/reports" element={<Reports />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />

@@ -127,4 +127,10 @@
     background-color: #ccc;
     margin-left: 10px;
   }
+
+  /* Income Row in Transactions */
+  .income-row td {
+    color: #2ecc71;
+    font-weight: bold;
+  }
   
