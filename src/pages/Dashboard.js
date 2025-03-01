@@ -3,102 +3,86 @@ import DashboardCard from "../components/DashboardCard";
 import "../styles/Dashboard.css";
 
 const Dashboard = () => {
-  const [totalBalance, setTotalBalance] = useState(null);
-  const [previousBalance, setPreviousBalance] = useState(null);
-  const [percentageChange, setPercentageChange] = useState(null);
-  const [loading, setLoading] = useState(true);
+    const [totalBalance, setTotalBalance] = useState(null);
+    const [previousBalance, setPreviousBalance] = useState(null);
+    const [percentageChange, setPercentageChange] = useState(null);
+    const [loading, setLoading] = useState(true); 
 
-  useEffect(() => {
-    const fetchTotalBalance = async () => {
-        try {
-            // const response = await fetch("/api/dashboard/total-balance", {
-                const response = await fetch("http://localhost:10000/api/dashboard/total-balance", {
-                method: "GET",
-                headers: {
-                    "Cache-Control": "no-cache, no-store, must-revalidate",
-                    "Pragma": "no-cache",
-                    "Expires": "0"
-                }
-            });
-    
-            // Ensure response is JSON
-            const text = await response.text();
-            console.log("Raw API Response:", text);
-    
-            // Parse only if it's valid JSON
-            const data = JSON.parse(text);
-    
-            setTotalBalance(data.totalBalance);
-            setPreviousBalance(data.previousBalance);
-            setPercentageChange(data.percentageChange);
-            setLoading(false);
-        } catch (error) {
-            console.error("Error fetching total balance:", error);
-            setLoading(false);
-        }
-    };
-    
+    useEffect(() => {
+        const fetchTotalBalance = async () => {
+            try {
+                const response = await fetch("/api/dashboard/tital-balance");
+                const data = await response.json();
+                setTotalBalance(data.totalBalance);
+                setPreviousBalance(data.previousBalance);
+                setPercentageChange(data.percentageChange);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching total balance:", error);
+                setLoading(false)
+            }
+        };
 
-    fetchTotalBalance();
-  }, []);
+        fetchTotalBalance();
+    }, []);
 
-  const formatCurrency = (amount) => {
-    return amount !== null ? `$${amount.toLocaleString()}` : "N/A";
-  };
+    const formatCurrency = (amount) => {
+        return amount !== null ? `$${amount.toLocaleString()}` : "N/A";
+    }
 
-  return (
-    <div className="dashboard">
-      <h1 className="page-title">Dashboard</h1>
+    return (
+        <div className="dashboard">
+            <h1 className="page-title">Dashboard</h1>
 
-      {/* Row 1 - Summary Cards with Icons */}
-      <div className="dashboard-widgets">
-        <DashboardCard 
-          title="Total Balance" 
-          amount={formatCurrency(totalBalance)} 
-          percentage={percentageChange} 
-          previousBalance={formatCurrency(previousBalance)}
-          icon="/icons/balance.png" 
-          loading={loading}
-        />
-        <DashboardCard title="Income This Month" amount="4,200.00" percentage={2} icon="/icons/income.png" />
-        <DashboardCard title="Expenses This Month" amount="2,300.00" percentage={-1} icon="/icons/expenses.png" />
-        <DashboardCard title="Net Savings" amount="1,900.00" percentage={4} icon="/icons/savings.png" />
-      </div>
+            {/* Row 1 - Summary Cards with Icons */}
+            <div className="dashboard-widgets">
+                <DashboardCard
+                    title="Total Balance"
+                    amount={formatCurrency(totalBalance)}
+                    percentage={percentageChange}
+                    previousBalance={formatCurrency(previousBalance)}
+                    icon="/icons/balance.png"
+                    loading={loading} />
+                {/* <DashboardCard title="Total Balance" amount="12,345.67" percentage={5} icon="/icons/balance.png" /> */}
+                <DashboardCard title="Income This Month" amount="4,200.00" percentage={2} icon="/icons/income.png" />
+                <DashboardCard title="Expenses This Month" amount="2,300.00" percentage={-1} icon="/icons/expenses.png" />
+                <DashboardCard title="Net Savings" amount="1,900.00" percentage={4} icon="/icons/savings.png" />
+            </div>
 
-      {/* Rows 2, 3, 4 - Chart Cards */}
-      <div className="dashboard-charts">
-        {/* Row 2 */}
-        <div className="chart-card">
-          <h2>Monthly Income vs Expenses</h2>
-          <p>Placeholder for chart</p>
+            {/* Rows 2, 3, 4 - Chart Cards */}
+            <div className="dashboard-charts">
+                {/* Row 2 */}
+                <div className="chart-card">
+                    <h2>Monthly Income vs Expenses</h2>
+                    <p>Placeholder for chart</p>
+                </div>
+                <div className="chart-card">
+                    <h2>Budget Allocation by Category</h2>
+                    <p>Placeholder for chart</p>
+                </div>
+
+                {/* Row 3 */}
+                <div className="chart-card">
+                    <h2>Recent Transactions</h2>
+                    <p>Placeholder for table</p>
+                </div>
+                <div className="chart-card">
+                    <h2>Savings Goals Progress</h2>
+                    <p>Placeholder for progress chart</p>
+                </div>
+
+                {/* Row 4 */}
+                <div className="chart-card">
+                    <h2>Cash Flow Chart</h2>
+                    <p>Placeholder for chart</p>
+                </div>
+                <div className="chart-card">
+                    <h2>Expense Breakdown</h2>
+                    <p>Placeholder for breakdown</p>
+                </div>
+            </div>
         </div>
-        <div className="chart-card">
-          <h2>Budget Allocation by Category</h2>
-          <p>Placeholder for chart</p>
-        </div>
-
-        {/* Row 3 */}
-        <div className="chart-card">
-          <h2>Recent Transactions</h2>
-          <p>Placeholder for table</p>
-        </div>
-        <div className="chart-card">
-          <h2>Savings Goals Progress</h2>
-          <p>Placeholder for progress chart</p>
-        </div>
-
-        {/* Row 4 */}
-        <div className="chart-card">
-          <h2>Cash Flow Chart</h2>
-          <p>Placeholder for chart</p>
-        </div>
-        <div className="chart-card">
-          <h2>Expense Breakdown</h2>
-          <p>Placeholder for breakdown</p>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Dashboard;

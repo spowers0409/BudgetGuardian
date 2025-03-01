@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-// const db = require("./db"); // Database connection
-const pool = require("./db")
+const db = require("./db"); // Database connection
+// const pool = require("./db")
 
 // Get total balance and percentage change
 router.get("/total-balance", async (req, res) => {
