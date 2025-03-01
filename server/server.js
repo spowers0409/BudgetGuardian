@@ -131,7 +131,15 @@ app.post("/api/transactions", async (req, res) => {
 app.get("/api/budget-categories", async (req, res) => {
     try {
         const result = await pool.query("SELECT DISTINCT category FROM budget");
-        res.json(result.rows);
+
+        let categories = result.rows.map((item) => item.category);
+
+        // Income is always included no matter what is added from budgets
+        if (!categories.includes("Income")) {
+            categories.unshift("Income");
+        }
+
+        res.json(categories); // Chhanged from result.rows to show Income
     } catch (err) {
         console.error("Error fetching budget categories:", err.message);
         res.status(500).send("Server Error");
