@@ -43,9 +43,9 @@ const Dashboard = () => {
           icon="/icons/balance.png" 
           loading={loading}
         />
-        <DashboardCard title="Income This Month" amount="$4,200.00" percentage={2} icon="/icons/income.png" />
-        <DashboardCard title="Expenses This Month" amount="$2,300.00" percentage={-1} icon="/icons/expenses.png" />
-        <DashboardCard title="Net Savings" amount="$1,900.00" percentage={4} icon="/icons/savings.png" />
+        <DashboardCard title="Income This Month" amount="4,200.00" percentage={2} icon="/icons/income.png" />
+        <DashboardCard title="Expenses This Month" amount="2,300.00" percentage={-1} icon="/icons/expenses.png" />
+        <DashboardCard title="Net Savings" amount="1,900.00" percentage={4} icon="/icons/savings.png" />
       </div>
 
       {/* Rows 2, 3, 4 - Chart Cards */}

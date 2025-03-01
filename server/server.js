@@ -37,6 +37,8 @@ app.get("/", (req, res) => {
     res.send("Backend is running!");
 });
 
+app.use("/api/dashboard", dashboardRoutes);
+
 // Register User
 app.post("/auth/register", async (req, res) => {
     const { full_name, email, password } = req.body;
@@ -364,7 +366,6 @@ const ensureIncomeBudget = async () => {
 
 ensureIncomeBudget();
 
-app.use("/api/dashboard", dashboardRoutes);
 
 const PORT = process.env.PORT || 10000; // Previously 5000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
