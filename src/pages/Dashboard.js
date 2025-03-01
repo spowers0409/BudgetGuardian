@@ -10,18 +10,33 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchTotalBalance = async () => {
-      try {
-        const response = await fetch("/api/dashboard/total-balance");
-        const data = await response.json();
-        setTotalBalance(data.totalBalance);
-        setPreviousBalance(data.previousBalance);
-        setPercentageChange(data.percentageChange);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching total balance:", error);
-        setLoading(false);
-      }
+        try {
+            const response = await fetch("/api/dashboard/total-balance", {
+                method: "GET",
+                headers: {
+                    "Cache-Control": "no-cache, no-store, must-revalidate",
+                    "Pragma": "no-cache",
+                    "Expires": "0"
+                }
+            });
+    
+            // Ensure response is JSON
+            const text = await response.text();
+            console.log("Raw API Response:", text);
+    
+            // Parse only if it's valid JSON
+            const data = JSON.parse(text);
+    
+            setTotalBalance(data.totalBalance);
+            setPreviousBalance(data.previousBalance);
+            setPercentageChange(data.percentageChange);
+            setLoading(false);
+        } catch (error) {
+            console.error("Error fetching total balance:", error);
+            setLoading(false);
+        }
     };
+    
 
     fetchTotalBalance();
   }, []);
@@ -40,6 +55,7 @@ const Dashboard = () => {
           title="Total Balance" 
           amount={formatCurrency(totalBalance)} 
           percentage={percentageChange} 
+          previousBalance={formatCurrency(previousBalance)}
           icon="/icons/balance.png" 
           loading={loading}
         />
