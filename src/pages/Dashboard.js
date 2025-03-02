@@ -12,7 +12,14 @@ const Dashboard = () => {
         const fetchTotalBalance = async () => {
             try {
                 // const response = await fetch("/api/dashboard/total-balance");
-                const response = await fetch("https://budgetguardian-backend.onrender.com/api/dashboard/total-balance");
+                const response = await fetch("https://budgetguardian-backend.onrender.com/api/dashboard/total-balance", {
+                    method: "GET",
+                    headers: {
+                        "Cache-Control": "no-cache. no-store, must-revalidate",
+                        "Pragma": "no-cache",
+                        "Expires": "0"
+                    }
+                });
 
                 if (!response.ok) {
                     throw new Error(`HTTP Error! Status: ${response.status}`);
