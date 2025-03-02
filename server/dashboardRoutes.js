@@ -53,6 +53,15 @@ router.get("/total-balance", async (req, res) => {
             ? ((totalBalance - previousBalance) / Math.abs(previousBalance)) * 100
             : 0;
 
+
+        console.log("✅ API Response Data:", {
+            totalIncome,
+            totalExpenses,
+            totalBalance,
+            previousBalance,
+            percentageChange,
+        });
+            
         // Send fresh JSON response
         res.json({
             totalIncome,
