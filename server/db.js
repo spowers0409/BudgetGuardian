@@ -10,10 +10,10 @@ const pool = new Pool({
     max: 10,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 5000,
-    ssl: process.env.DB_HOST.includes("localhost") ? false : { rejectUnauthorized: false },
-    // ssl: {
-    //     rejectUnauthorized: false, // Render Required
-    // },
+    // ssl: process.env.DB_HOST.includes("localhost") ? false : { rejectUnauthorized: false },
+    ssl: {
+        rejectUnauthorized: false, // Render Required
+    },
 });
 
 pool.connect()
