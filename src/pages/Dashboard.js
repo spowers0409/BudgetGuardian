@@ -11,8 +11,15 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchTotalBalance = async () => {
             try {
-                const response = await fetch("/api/dashboard/total-balance");
-                const data = await response.json();
+                // const response = await fetch("/api/dashboard/total-balance");
+                const response = await fetch("https://budgetguardian-backend.onrender.com/api/dashboard/total-balance");
+
+
+                const text = await response.text();
+                console.log("Raw API Response:", text); // Add this to debug
+                const data = JSON.parse(text);
+
+                // const data = await response.json();
                 setTotalBalance(data.totalBalance);
                 setPreviousBalance(data.previousBalance);
                 setPercentageChange(data.percentageChange);
@@ -27,7 +34,8 @@ const Dashboard = () => {
     }, []);
 
     const formatCurrency = (amount) => {
-        return amount !== null ? `$${amount.toLocaleString()}` : "N/A";
+        return amount !== null ? `${amount.toLocaleString()}` : "N/A";
+        // return amount;
     }
 
     return (

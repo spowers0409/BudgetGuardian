@@ -8,18 +8,23 @@ router.get("/total-balance", async (req, res) => {
     try {
         console.log("🔍 Fetching total balance...");
         // Disable caching
-        res.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
-        res.set("Pragma", "no-cache");
-        res.set("Expires", "0");
+        res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+        res.setHeader("Pragma", "no-cache");
+        res.setHeader("Expires", "0");
 
         // Fetch income and expenses
-        const totalIncomeResult = await pool.query(
-            `SELECT COALESCE(SUM(amount), 0) AS total_income FROM transaction WHERE type = 'income'`
-        );
+        const totalIncomeResult = await pool.query(`
+            SELECT COALESCE(SUM(amount), 0) AS total_income
+            FROM transaction
+            WHERE LOWER(type) = 'income';
+        `);
         console.log("✅ Total Income Query Result:", totalIncomeResult.rows);
-        const totalExpensesResult = await pool.query(
-            `SELECT COALESCE(SUM(amount), 0) AS total_expenses FROM transaction WHERE type != 'income'`
-        );
+
+        const totalExpensesResult = await pool.query(`
+            SELECT COALESCE(SUM(amount), 0) AS total_expenses
+            FROM transaction
+            WHERE LOWER(type) != 'income';
+        `);
         console.log("✅ Total Expenses Query Result:", totalExpensesResult.rows);
 
         const totalIncome = parseFloat(totalIncomeResult.rows[0]?.total_income || 0);
@@ -38,14 +43,14 @@ router.get("/total-balance", async (req, res) => {
         const previousIncomeResult = await pool.query(`
             SELECT COALESCE(SUM(amount), 0) AS previous_income
             FROM transaction
-            WHERE type = 'income'
+            WHERE LOWER(type) = 'income'
             AND transaction_date >= date_trunc('month', CURRENT_DATE - INTERVAL '1 month')
             AND transaction_date < date_trunc('month', CURRENT_DATE)
         `);
         const previousExpensesResult = await pool.query(`
             SELECT COALESCE(SUM(amount), 0) AS previous_expenses
             FROM transaction
-            WHERE type != 'income'
+            WHERE (LOWER)type != 'income'
             AND transaction_date >= date_trunc('month', CURRENT_DATE - INTERVAL '1 month')
             AND transaction_date < date_trunc('month', CURRENT_DATE)
         `);
@@ -81,7 +86,7 @@ router.get("/total-balance", async (req, res) => {
         });
     } catch (error) {
         console.error("Error fetching total balance:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        res.status(500).json({ error: "Internal Server Error", details: error.message });
     }
 });
 

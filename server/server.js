@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const pool = require("./db");
 const bcrypt = require("bcryptjs");
-const dashboardRoutes = require("./dashboardRoutes");
+
 
 
 const app = express();
@@ -35,13 +35,13 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", (req, res) => {
     res.send("Backend is running!");
 });
 
+const dashboardRoutes = require("./dashboardRoutes");
 app.use("/api/dashboard", dashboardRoutes);
 
 // Register User
