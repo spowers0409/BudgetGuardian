@@ -30,7 +30,8 @@ app.options("*", cors(corsOptions));
 
 app.use((req, res, next) => {
     // res.header("Access-Control-Allow-Origin", req.headers.origin);
-    res.header("Access-Control-Allow-Origin", req.headers.origin || '*'); // Testing routes
+    // res.header("Access-Control-Allow-Origin", req.headers.origin || '*'); // Testing routes
+    res.header("Access-Control-Allow-Origin", "https://budgetguardian.vercel.app");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Cache-Control");
     res.header("Access-Control-Allow-Credentials", "true");
@@ -42,8 +43,7 @@ app.use((req, res, next) => {
     next();
 })
 
-const dashboardRoutes = require("./dashboardRoutes");
-app.use("/api/dashboard", dashboardRoutes);
+
 
 app.use(express.json());
 
@@ -51,7 +51,8 @@ app.get("/", (req, res) => {
     res.send("Backend is running!");
 });
 
-
+const dashboardRoutes = require("./dashboardRoutes");
+app.use("/api/dashboard", dashboardRoutes);
 
 // Register User
 app.post("/auth/register", async (req, res) => {

@@ -77,6 +77,8 @@ router.get("/total-balance", async (req, res) => {
         });
             
         // Send fresh JSON response
+        // res.setHeader("Content-Type", "application/json");
+        // res.status(200).json({
         res.json({
             totalIncome,
             totalExpenses,
