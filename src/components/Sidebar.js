@@ -23,7 +23,7 @@ function Sidebar() {
       <nav>
         <ul>
           <li>
-            <Link to="/">
+            <Link to="/dashboard">
               <img src="/icons/dashboard.png" alt="Dashboard" className="no-invert-icon" /> Dashboard
             </Link>
           </li>

@@ -36,7 +36,7 @@ function App() {
       {!hideSidebar && <Sidebar />} {/* Only show sidebar if NOT on login page */}
       <div className="content">
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/budget" element={<Budget />} />
           <Route path="/goals" element={<Goals />} />
