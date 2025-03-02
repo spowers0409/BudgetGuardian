@@ -17,9 +17,9 @@ const Dashboard = () => {
 
                 const text = await response.text();
                 console.log("Raw API Response:", text); // Add this to debug
-                const data = JSON.parse(text);
+                //const data = JSON.parse(text);
 
-                // const data = await response.json();
+                const data = await response.json();
                 setTotalBalance(data.totalBalance);
                 setPreviousBalance(data.previousBalance);
                 setPercentageChange(data.percentageChange);
