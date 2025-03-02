@@ -14,15 +14,25 @@ const Dashboard = () => {
                 // const response = await fetch("/api/dashboard/total-balance");
                 const response = await fetch("https://budgetguardian-backend.onrender.com/api/dashboard/total-balance");
 
+                if (!response.ok) {
+                    throw new Error(`HTTP Error! Status: ${response.status}`);
+                }
+
 
                 const text = await response.text();
                 console.log("Raw API Response:", text); // Add this to debug
                 //const data = JSON.parse(text);
 
                 const data = await response.json();
-                setTotalBalance(data.totalBalance);
-                setPreviousBalance(data.previousBalance);
-                setPercentageChange(data.percentageChange);
+
+                if (!data || typeof data.totalBalance === "undefined") {
+                    console.error("Invalid API response:", data);
+                    return;
+                }
+
+                setTotalBalance(data.totalBalance ?? 0);
+                setPreviousBalance(data.previousBalance ?? 0);
+                setPercentageChange(data.percentageChange ?? 0);
                 setLoading(false);
             } catch (error) {
                 console.error("Error fetching total balance:", error);
@@ -34,9 +44,13 @@ const Dashboard = () => {
     }, []);
 
     const formatCurrency = (amount) => {
-        return amount !== null ? `${amount.toLocaleString()}` : "N/A";
+        if (typeof amount !== "number" || isNaN(amount)) {
+            return "$0.00";
+        }
+        return `$${amount.toLocaleString()}`;
+        //return amount !== null ? `${amount.toLocaleString()}` : "N/A";
         // return amount;
-    }
+    };
 
     return (
         <div className="dashboard">

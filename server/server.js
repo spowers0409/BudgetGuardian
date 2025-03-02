@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const pool = require("./db");
 const bcrypt = require("bcryptjs");
-
+// const dashboardRoutes = require("./dashboardRoutes");
 
 
 const app = express();

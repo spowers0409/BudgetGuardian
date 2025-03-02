@@ -16,14 +16,14 @@ router.get("/total-balance", async (req, res) => {
         const totalIncomeResult = await pool.query(`
             SELECT COALESCE(SUM(amount), 0) AS total_income
             FROM transaction
-            WHERE LOWER(type) = 'income';
+            WHERE "type" = 'income';
         `);
         console.log("✅ Total Income Query Result:", totalIncomeResult.rows);
 
         const totalExpensesResult = await pool.query(`
             SELECT COALESCE(SUM(amount), 0) AS total_expenses
             FROM transaction
-            WHERE LOWER(type) != 'income';
+            WHERE "type" != 'income';
         `);
         console.log("✅ Total Expenses Query Result:", totalExpensesResult.rows);
 
@@ -43,16 +43,16 @@ router.get("/total-balance", async (req, res) => {
         const previousIncomeResult = await pool.query(`
             SELECT COALESCE(SUM(amount), 0) AS previous_income
             FROM transaction
-            WHERE LOWER(type) = 'income'
+            WHERE "type" = 'income'
             AND transaction_date >= date_trunc('month', CURRENT_DATE - INTERVAL '1 month')
-            AND transaction_date < date_trunc('month', CURRENT_DATE)
+            AND transaction_date < date_trunc('month', CURRENT_DATE);
         `);
         const previousExpensesResult = await pool.query(`
             SELECT COALESCE(SUM(amount), 0) AS previous_expenses
             FROM transaction
-            WHERE (LOWER)type != 'income'
+            WHERE "type" != 'income'
             AND transaction_date >= date_trunc('month', CURRENT_DATE - INTERVAL '1 month')
-            AND transaction_date < date_trunc('month', CURRENT_DATE)
+            AND transaction_date < date_trunc('month', CURRENT_DATE);
         `);
 
         const prevIncome = parseFloat(previousIncomeResult.rows[0]?.previous_income || 0);
