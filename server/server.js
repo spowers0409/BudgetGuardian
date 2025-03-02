@@ -18,20 +18,39 @@ const corsOptions = {
     allowedHeaders: [
         "Content-Type",
         "Authorization",
-        "Cache-Control"],
-        // "Expires",
-        // "Pragma"],
-    exposedHeaders: ["Content-Length", "Content-Type"],
+        "Cache-Control",
+        "Expires",
+        "Pragma"],
     credentials: true,
+    exposedHeaders: ["Content-Length", "Content-Type"],  
 };
 
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
+// app.use((req, res, next) => {
+//     // res.header("Access-Control-Allow-Origin", req.headers.origin);
+//     res.header("Access-Control-Allow-Origin", req.headers.origin || '*'); // Testing routes
+//     // res.header("Access-Control-Allow-Origin", "https://budgetguardian.vercel.app");
+//     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+//     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Cache-Control");
+//     res.header("Access-Control-Allow-Credentials", "true");
+
+//     if (req.method === "OPTIONS") {
+//         return res.sendStatus(200);
+//     }
+
+//     next();
+// })
+
 app.use((req, res, next) => {
-    // res.header("Access-Control-Allow-Origin", req.headers.origin);
-    // res.header("Access-Control-Allow-Origin", req.headers.origin || '*'); // Testing routes
-    res.header("Access-Control-Allow-Origin", "https://budgetguardian.vercel.app");
+    const allowedOrigins = [
+        "http://localhost:3000",
+        "https://budgetguardian.vercel.app"
+    ];
+    if (allowedOrigins.includes(req.headers.origin)) {
+        res.header("Access-Control-Allow-Origin", req.headers.origin);
+    }
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Cache-Control");
     res.header("Access-Control-Allow-Credentials", "true");
@@ -41,7 +60,8 @@ app.use((req, res, next) => {
     }
 
     next();
-})
+});
+
 
 
 
