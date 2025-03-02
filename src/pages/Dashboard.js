@@ -26,9 +26,11 @@ const Dashboard = () => {
                 }
 
 
-                const text = await response.text();
-                console.log("Raw API Response:", text); // Add this to debug
-                const data = JSON.parse(text);
+                // const text = await response.text();
+                // console.log("Raw API Response:", text); // Add this to debug
+                // const data = JSON.parse(text);
+
+                const data = await response.json();
 
                 //const data = await response.json();
 
@@ -43,7 +45,9 @@ const Dashboard = () => {
                 setLoading(false);
             } catch (error) {
                 console.error("Error fetching total balance:", error);
-                setLoading(false)
+                // setLoading(false)
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -54,7 +58,7 @@ const Dashboard = () => {
         if (typeof amount !== "number" || isNaN(amount)) {
             return "$0.00";
         }
-        return `$${amount.toLocaleString()}`;
+        return `${amount.toLocaleString()}`;
         //return amount !== null ? `${amount.toLocaleString()}` : "N/A";
         // return amount;
     };
