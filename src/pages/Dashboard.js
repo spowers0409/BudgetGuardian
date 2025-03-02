@@ -11,7 +11,7 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchTotalBalance = async () => {
             try {
-                const response = await fetch("/api/dashboard/tital-balance");
+                const response = await fetch("/api/dashboard/total-balance");
                 const data = await response.json();
                 setTotalBalance(data.totalBalance);
                 setPreviousBalance(data.previousBalance);

@@ -6,6 +6,7 @@ const db = require("./db"); // Database connection
 // Get total balance and percentage change
 router.get("/total-balance", async (req, res) => {
     try {
+        console.log("🔍 Fetching total balance...");
         // Disable caching
         res.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
         res.set("Pragma", "no-cache");
@@ -15,13 +16,17 @@ router.get("/total-balance", async (req, res) => {
         const totalIncomeResult = await pool.query(
             `SELECT COALESCE(SUM(amount), 0) AS total_income FROM transaction WHERE type = 'income'`
         );
+        console.log("✅ Total Income Query Result:", totalIncomeResult.rows);
         const totalExpensesResult = await pool.query(
             `SELECT COALESCE(SUM(amount), 0) AS total_expenses FROM transaction WHERE type != 'income'`
         );
+        console.log("✅ Total Expenses Query Result:", totalExpensesResult.rows);
 
         const totalIncome = parseFloat(totalIncomeResult.rows[0].total_income);
         const totalExpenses = parseFloat(totalExpensesResult.rows[0].total_expenses);
         const totalBalance = totalIncome - totalExpenses;
+
+        console.log("📊 Calculated Total Balance:", totalBalance);
 
         // Fetch previous month's balance
         // const previousBalanceResult = await pool.query(`
