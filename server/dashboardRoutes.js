@@ -92,5 +92,53 @@ router.get("/total-balance", async (req, res) => {
     }
 });
 
+router.get("/income-this-month", async (req, res) => {
+    try {
+        console.log("🔍 Fetching income for the current and previous month...");
+
+        // Get income for the current month
+        const currentIncomeResult = await pool.query(`
+            SELECT COALESCE(SUM(amount), 0) AS current_income
+            FROM transaction
+            WHERE "type" = 'income'
+            AND transaction_date >= date_trunc('month', CURRENT_DATE)
+            AND transaction_date < date_trunc('month', CURRENT_DATE + INTERVAL '1 month');
+        `);
+        const currentIncome = parseFloat(currentIncomeResult.rows[0]?.current_income || 0);
+
+        // Get income for the previous month
+        const previousIncomeResult = await pool.query(`
+            SELECT COALESCE(SUM(amount), 0) AS previous_income
+            FROM transaction
+            WHERE "type" = 'income'
+            AND transaction_date >= date_trunc('month', CURRENT_DATE - INTERVAL '1 month')
+            AND transaction_date < date_trunc('month', CURRENT_DATE);
+        `);
+        const previousIncome = parseFloat(previousIncomeResult.rows[0]?.previous_income || 0);
+
+        // Calculate percentage change
+        const percentageChange = previousIncome !== 0
+            ? ((currentIncome - previousIncome) / Math.abs(previousIncome)) * 100
+            : currentIncome > 0 ? 100 : 0;
+
+        console.log("✅ Income This Month API Response:", {
+            currentIncome,
+            previousIncome,
+            percentageChange
+        });
+
+        res.json({
+            currentIncome,
+            previousIncome,
+            percentageChange
+        });
+
+    } catch (error) {
+        console.error("Error fetching income this month:", error);
+        res.status(500).json({ error: "Internal Server Error", details: error.message });
+    }
+});
+
+
 
 module.exports = router;

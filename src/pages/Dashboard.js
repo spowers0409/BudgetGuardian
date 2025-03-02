@@ -8,6 +8,10 @@ const Dashboard = () => {
     const [percentageChange, setPercentageChange] = useState(null);
     const [loading, setLoading] = useState(true); 
 
+    // Income this month
+    const [incomeThisMonth, setIncomeThisMonth] = useState(0);
+    const [incomeChange, setIncomeChange] = useState(0);
+
     useEffect(() => {
         // const fetchTotalBalance = async () => {
         //     try {
@@ -51,14 +55,18 @@ const Dashboard = () => {
         //     }
         // };
 
+        const API_BASE_URL = window.location.hostname === "localhost"
+            ? "http://localhost:10000/api/dashboard"
+            : "https://budgetguardian-backend.onrender.com/api/dashboard";
+
         const fetchTotalBalance = async () => {
             try {
-                const response = await fetch("https://budgetguardian-backend.onrender.com/api/dashboard/total-balance");
+                const response = await fetch(`${API_BASE_URL}/total-balance`);
                 const text = await response.text();
-                console.log("🛠 Raw API Response:", text); // Debugging log
+                console.log("Raw API Response:", text); // Debugging log
         
                 const data = JSON.parse(text);
-                console.log("✅ Parsed API Data:", data); // Add this line
+                console.log("Parsed API Data:", data); // Add this line
         
                 setTotalBalance(data.totalBalance ?? 0);
                 setPreviousBalance(data.previousBalance ?? 0);
@@ -69,9 +77,27 @@ const Dashboard = () => {
                 setLoading(false);
             }
         };
+
         
+        const fetchIncomeThisMonth = async () => {
+            try {
+                // const response = await fetch("https://budgetguardian-backend.onrender.com/api/dashboard/income-this-month");
+                const response = await fetch(`${API_BASE_URL}/income-this-month`)
+                const text = await response.text()
+                console.log("Raw Income API Response:", text);
+
+                const data = JSON.parse(text);
+                console.log("Parseed API Data:", data);
+
+                setIncomeThisMonth(data.currentIncome ?? 0);
+                setIncomeChange(data.percentageChange ?? 0);
+            } catch (error) {
+                console.error("Error fetching income this month:", error);
+            }
+        };        
 
         fetchTotalBalance();
+        fetchIncomeThisMonth();
     }, []);
 
     const formatCurrency = (amount) => {
@@ -95,9 +121,16 @@ const Dashboard = () => {
                     percentage={percentageChange}
                     previousBalance={formatCurrency(previousBalance)}
                     icon="/icons/balance.png"
-                    loading={loading} />
+                    loading={loading}
+                />
+                <DashboardCard
+                    title="Income This Month"
+                    amount={formatCurrency(incomeThisMonth)}
+                    percentage={incomeChange}
+                    icon="/icons/income.png"
+                />
                 {/* <DashboardCard title="Total Balance" amount="12,345.67" percentage={5} icon="/icons/balance.png" /> */}
-                <DashboardCard title="Income This Month" amount="4,200.00" percentage={2} icon="/icons/income.png" />
+                {/* <DashboardCard title="Income This Month" amount="4,200.00" percentage={2} icon="/icons/income.png" /> */}
                 <DashboardCard title="Expenses This Month" amount="2,300.00" percentage={-1} icon="/icons/expenses.png" />
                 <DashboardCard title="Net Savings" amount="1,900.00" percentage={4} icon="/icons/savings.png" />
             </div>
