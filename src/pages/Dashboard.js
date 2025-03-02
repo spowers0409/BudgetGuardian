@@ -56,7 +56,7 @@ const Dashboard = () => {
 
     const formatCurrency = (amount) => {
         if (typeof amount !== "number" || isNaN(amount)) {
-            return "$0.00";
+            return "0.00";
         }
         return `${amount.toLocaleString()}`;
         //return amount !== null ? `${amount.toLocaleString()}` : "N/A";
