@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DashboardCard from "../components/DashboardCard";
 import "../styles/Dashboard.css";
 import MonthlyIncomeExpensesChart from "../components/MonthlyIncomeExpensesChart";
+import BudgetAllocationChart from "../components/BudgetAllocationChart";
 
 const Dashboard = () => {
     const [totalBalance, setTotalBalance] = useState(null);
@@ -23,6 +24,9 @@ const Dashboard = () => {
 
     // Monthly Income vs Expense
     const [monthlyData, setMonthlyData] = useState([]);
+
+    // Budget Allocation by Category
+    const [budgetData, setBudgetData] = useState([]);
 
 
 
@@ -157,7 +161,23 @@ const Dashboard = () => {
                 console.error("Error fetching monthly income vs expenses:", error);
             }
         };
-                
+
+        
+
+        const fetchBudgetAllocation = async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/budget-allocation`);
+                const text = await response.text();
+                console.log("Raw Budget API Response:", text);
+
+                const data = JSON.parse(text);
+                console.log("Parsed Budget API Data:", data);
+
+                setBudgetData(data);
+            } catch (error) {
+                console.error("Error fetching budget allocation:", error);
+            }
+        };              
         
         // useEffect(() => {
         //     fetchNetSavings();
@@ -169,6 +189,7 @@ const Dashboard = () => {
         fetchExpensesThisMonth();
         fetchNetSavings();
         fetchMonthlyData();
+        fetchBudgetAllocation();
     }, []);
 
     const formatCurrency = (amount) => {
@@ -229,16 +250,22 @@ const Dashboard = () => {
         <               MonthlyIncomeExpensesChart data={monthlyData} />
                     </div>
                 </div>
+                <div className="chart-card">
+                    <h2>Budget Allocation by Category</h2>
+                    <div className="chart-container">
+                        <BudgetAllocationChart data={budgetData} />
+                    </div>
+                </div>
 
                 {/* <div className="chart-card">
                     <h2>Monthly Income vs Expenses</h2>
                     <p>Placeholder for chart</p>
                 </div> */}
 
-                <div className="chart-card">
+                {/* <div className="chart-card">
                     <h2>Budget Allocation by Category</h2>
                     <p>Placeholder for chart</p>
-                </div>
+                </div> */}
 
                 {/* Row 3 */}
                 <div className="chart-card">

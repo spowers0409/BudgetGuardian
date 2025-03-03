@@ -304,6 +304,41 @@ router.get("/monthly-income-expenses", async (req, res) => {
     }
 });
 
+router.get("/budget-allocation", async (req, res) => {
+    try {
+        console.log("🔍 Fetching budget allocation data...");
+
+        const budgetDataResult = await pool.query(`
+            SELECT 
+                b.category, 
+                b.budgeted, 
+                COALESCE(SUM(t.amount), 0) AS spent
+            FROM budget b
+            LEFT JOIN transaction t 
+                ON b.category = t.category AND t.type = 'expense'
+            GROUP BY b.category, b.budgeted
+            ORDER BY b.category ASC;
+        `);
+
+        const budgetData = budgetDataResult.rows.map(row => ({
+            category: row.category,
+            budgeted: parseFloat(row.budgeted) || 0,
+            spent: parseFloat(row.spent) || 0
+        }));
+
+        console.log("Fixed Budget Allocation API Response:", budgetData);
+        res.json(budgetData);
+    } catch (error) {
+        console.error("Error fetching budget allocation:", error);
+        res.status(500).json({ error: "Internal Server Error", details: error.message });
+    }
+});
+
+
+
+
+
+
 router.get("/debug-database", async (req, res) => {
     try {
         const result = await pool.query("SELECT current_database();");

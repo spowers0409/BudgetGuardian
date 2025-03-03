@@ -161,26 +161,57 @@ app.post("/api/transactions", async (req, res) => {
     try {
         const { transaction_date, category, place, amount, type } = req.body;
 
-        console.log("📥 Incoming Transaction Data:", req.body); // Log what frontend is sending
+        console.log("Incoming Transaction Data:", req.body); // Debugging
 
         // Validate type (should be either 'income' or 'expense')
         if (!['income', 'expense'].includes(type)) {
             return res.status(400).json({ error: "Invalid transaction type. Must be 'income' or 'expense'." });
         }
 
+        // Ensure "Income" category is always valid
+        let transactionCategory = category;
+        if (type === 'income') {
+            transactionCategory = "Income"; // Force "Income" as category for income transactions
+        }
+
+        // Insert the transaction
         const newTransaction = await pool.query(
             "INSERT INTO transaction (transaction_date, category, place, amount, type) VALUES ($1, $2, $3, $4, $5) RETURNING *",
             [transaction_date, category, place, amount, type]
         );
+        
+        // Update the spent amount in the budget table if it's an expense
+        if (type === 'expense') {
+            await pool.query(
+                `UPDATE budget 
+                 SET spent = COALESCE(spent, 0) + $1
+                 WHERE category = $2`,
+                [amount, category]
+            );
+        }
+        
 
-        console.log("✅ Transaction Saved in DB:", newTransaction.rows[0]); // Log what DB actually saves
+        console.log("Transaction Saved in DB:", newTransaction.rows[0]);
+
+        // Update spent amount in budget table **only if it's an expense**
+        if (type === 'expense') {
+            await pool.query(
+                `UPDATE budget 
+                 SET spent = COALESCE(spent, 0) + $1
+                 WHERE category = $2`,
+                [amount, category]
+            );
+            console.log(`Updated spent amount for category: ${category}`);
+        }
 
         res.json(newTransaction.rows[0]);
     } catch (err) {
-        console.error("❌ Error adding transaction:", err.message);
+        console.error("Error adding transaction:", err.message);
         res.status(500).send("Server Error");
     }
 });
+
+
 
 
 
@@ -209,12 +240,19 @@ app.post("/api/transactions", async (req, res) => {
 app.get("/api/budget-categories", async (req, res) => {
     try {
         const result = await pool.query("SELECT category FROM budget");
-        res.json(result.rows);
+        let categories = result.rows.map(row => row.category);
+
+        if (!categories.includes("Income")) {
+            categories.unshift("Income");
+        }
+
+        res.json(categories);
     } catch (err) {
         console.error("Error fetching budget categories:", err.message);
         res.status(500).send("Server Error");
     }
 });
+
 
 // Get all budgets
 app.get("/api/budgets", async (req, res) => {
