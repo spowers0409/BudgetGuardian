@@ -18,19 +18,19 @@ router.get("/total-balance", async (req, res) => {
             FROM transaction
             WHERE "type" = 'income';
         `);
-        console.log("✅ Total Income Query Result:", totalIncomeResult.rows);
+        console.log("Total Income Query Result:", totalIncomeResult.rows);
 
         const totalExpensesResult = await pool.query(`
             SELECT COALESCE(SUM(amount), 0) AS total_expenses
             FROM transaction
             WHERE "type" != 'income';
         `);
-        console.log("✅ Total Expenses Query Result:", totalExpensesResult.rows);
+        console.log("Total Expenses Query Result:", totalExpensesResult.rows);
 
         const totalIncome = parseFloat(totalIncomeResult.rows[0]?.total_income || 0);
         const totalExpenses = parseFloat(totalExpensesResult.rows[0]?.total_expenses || 0);
         const totalBalance = totalIncome - totalExpenses;
-        console.log("📊 Calculated Total Balance:", totalBalance);
+        console.log("Calculated Total Balance:", totalBalance);
 
         // Fetch previous month's balance
         // const previousBalanceResult = await pool.query(`
@@ -68,7 +68,7 @@ router.get("/total-balance", async (req, res) => {
             : 0;
 
 
-        console.log("✅ API Response Data:", {
+        console.log("API Response Data:", {
             totalIncome,
             totalExpenses,
             totalBalance,
@@ -121,7 +121,7 @@ router.get("/income-this-month", async (req, res) => {
             ? ((currentIncome - previousIncome) / Math.abs(previousIncome)) * 100
             : currentIncome > 0 ? 100 : 0;
 
-        console.log("✅ Income This Month API Response:", {
+        console.log("Income This Month API Response:", {
             currentIncome,
             previousIncome,
             percentageChange
@@ -260,6 +260,59 @@ router.get("/net-savings", async (req, res) => {
         res.status(500).json({ error: "Internal Server Error", details: error.message });
     }
 });
+
+router.get("/monthly-income-expenses", async (req, res) => {
+    try {
+        console.log("Fetching monthly income and expenses for the current year...");
+
+        const monthlyDataResult = await pool.query(`
+            SELECT 
+                TO_CHAR(date_trunc('month', transaction_date), 'Month') AS month,
+                EXTRACT(MONTH FROM transaction_date) AS month_number,
+                SUM(CASE WHEN "type" = 'income' THEN amount ELSE 0 END) AS income,
+                SUM(CASE WHEN "type" = 'expense' THEN amount ELSE 0 END) AS expenses
+            FROM transaction
+            WHERE transaction_date >= date_trunc('year', CURRENT_DATE)  -- Only fetch current year
+            AND transaction_date < date_trunc('year', CURRENT_DATE + INTERVAL '1 year')
+            GROUP BY month, month_number
+            ORDER BY month_number;
+        `);
+
+        let monthlyData = monthlyDataResult.rows.map(row => ({
+            month: row.month.trim(),
+            income: parseFloat(row.income) || 0,
+            expenses: parseFloat(row.expenses) || 0
+        }));
+
+        // Ensure all months appear even if no transactions exist
+        const allMonths = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        monthlyData = allMonths.map((month) => {
+            const existingMonth = monthlyData.find((m) => m.month === month);
+            return existingMonth || { month, income: 0, expenses: 0 };
+        });
+
+        console.log("Final API Response:", monthlyData);
+        res.json(monthlyData);
+
+    } catch (error) {
+        console.error("Error fetching monthly income & expenses:", error);
+        res.status(500).json({ error: "Internal Server Error", details: error.message });
+    }
+});
+
+router.get("/debug-database", async (req, res) => {
+    try {
+        const result = await pool.query("SELECT current_database();");
+        res.json({ database_name: result.rows[0].current_database });
+    } catch (error) {
+        res.status(500).json({ error: "Error fetching database name", details: error.message });
+    }
+});
+
 
 
 

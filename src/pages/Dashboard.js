@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DashboardCard from "../components/DashboardCard";
 import "../styles/Dashboard.css";
+import MonthlyIncomeExpensesChart from "../components/MonthlyIncomeExpensesChart";
 
 const Dashboard = () => {
     const [totalBalance, setTotalBalance] = useState(null);
@@ -19,6 +20,10 @@ const Dashboard = () => {
     // Net Savings
     const [netSavings, setNetSavings] = useState(0);
     const [savingsChange, setSavingsChange] = useState(0);
+
+    // Monthly Income vs Expense
+    const [monthlyData, setMonthlyData] = useState([]);
+
 
 
 
@@ -137,6 +142,22 @@ const Dashboard = () => {
                 console.error("Error fetching net savings:", error);
             }
         };
+
+        const fetchMonthlyData = async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/monthly-income-expenses`);
+                const text = await response.text();
+                console.log("Raw Monthly API Response:", text);
+        
+                const data = JSON.parse(text);
+                console.log("Parsed Monthly Data:", data);
+        
+                setMonthlyData(data);
+            } catch (error) {
+                console.error("Error fetching monthly income vs expenses:", error);
+            }
+        };
+                
         
         // useEffect(() => {
         //     fetchNetSavings();
@@ -147,6 +168,7 @@ const Dashboard = () => {
         fetchIncomeThisMonth();
         fetchExpensesThisMonth();
         fetchNetSavings();
+        fetchMonthlyData();
     }, []);
 
     const formatCurrency = (amount) => {
@@ -200,10 +222,19 @@ const Dashboard = () => {
             {/* Rows 2, 3, 4 - Chart Cards */}
             <div className="dashboard-charts">
                 {/* Row 2 */}
+
                 <div className="chart-card">
                     <h2>Monthly Income vs Expenses</h2>
-                    <p>Placeholder for chart</p>
+                    <div className="chart-container">
+        <               MonthlyIncomeExpensesChart data={monthlyData} />
+                    </div>
                 </div>
+
+                {/* <div className="chart-card">
+                    <h2>Monthly Income vs Expenses</h2>
+                    <p>Placeholder for chart</p>
+                </div> */}
+
                 <div className="chart-card">
                     <h2>Budget Allocation by Category</h2>
                     <p>Placeholder for chart</p>

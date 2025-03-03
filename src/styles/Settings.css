@@ -28,7 +28,7 @@
     overflow-y: auto;
 }
 
-.settings-card, .transactions-card, .budget-card, .transactions-table-container, .dashboard-card, .widget-card, .chart-card {
+.settings-card, .transactions-card, .budget-card, .transactions-table-container, .dashboard-card, .widget-card {
     background: white;
     padding: 20px;
     border-radius: 10px;

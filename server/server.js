@@ -414,7 +414,7 @@ const ensureIncomeBudget = async () => {
              VALUES ('Income', 0, 0)
              ON CONFLICT (category) DO NOTHING;`
         );
-        console.log("✅ 'Income' category ensured in budget table.");
+        console.log("'Income' category ensured in budget table.");
     } catch (error) {
         console.error("Error ensuring 'Income' category:", error);
     }
