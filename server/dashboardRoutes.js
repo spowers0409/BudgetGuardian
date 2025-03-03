@@ -315,7 +315,8 @@ router.get("/budget-allocation", async (req, res) => {
                 COALESCE(SUM(t.amount), 0) AS spent
             FROM budget b
             LEFT JOIN transaction t 
-                ON b.category = t.category AND t.type = 'expense'
+                ON LOWER(b.category) = LOWER(t.category) AND t.type = 'expense'
+            WHERE LOWER(b.category) != 'income'  -- Exclude Income
             GROUP BY b.category, b.budgeted
             ORDER BY b.category ASC;
         `);
@@ -333,6 +334,7 @@ router.get("/budget-allocation", async (req, res) => {
         res.status(500).json({ error: "Internal Server Error", details: error.message });
     }
 });
+
 
 
 
