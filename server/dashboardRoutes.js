@@ -139,6 +139,130 @@ router.get("/income-this-month", async (req, res) => {
     }
 });
 
+router.get("/expenses-this-month", async (req, res) => {
+    console.log("dashboardRoutes.js is being loaded");
+
+    try {
+        console.log("Fetching expenses for the current and previous month...");
+
+        // Get expenses for the current month
+        const currentExpensesResult = await pool.query(`
+            SELECT COALESCE(SUM(amount), 0) AS current_expenses
+            FROM transaction
+            WHERE "type" = 'expense'
+            AND transaction_date >= date_trunc('month', CURRENT_DATE)
+            AND transaction_date < date_trunc('month', CURRENT_DATE + INTERVAL '1 month');
+        `);
+        const currentExpenses = parseFloat(currentExpensesResult.rows[0]?.current_expenses || 0);
+
+        // Get expenses for the previous month
+        const previousExpensesResult = await pool.query(`
+            SELECT COALESCE(SUM(amount), 0) AS previous_expenses
+            FROM transaction
+            WHERE "type" = 'expense'
+            AND transaction_date >= date_trunc('month', CURRENT_DATE - INTERVAL '1 month')
+            AND transaction_date < date_trunc('month', CURRENT_DATE);
+        `);
+        const previousExpenses = parseFloat(previousExpensesResult.rows[0]?.previous_expenses || 0);
+
+        // Calculate percentage change
+        const percentageChange = previousExpenses !== 0
+            ? ((currentExpenses - previousExpenses) / Math.abs(previousExpenses)) * 100
+            : currentExpenses > 0 ? 100 : 0;
+
+        console.log("Expenses This Month API Response:", {
+            currentExpenses,
+            previousExpenses,
+            percentageChange
+        });
+
+        res.json({
+            currentExpenses,
+            previousExpenses,
+            percentageChange
+        });
+
+    } catch (error) {
+        console.error("Error fetching expenses this month:", error);
+        res.status(500).json({ error: "Internal Server Error", details: error.message });
+    }
+});
+
+router.get("/net-savings", async (req, res) => {
+    try {
+        console.log("Fetching net savings for the current and previous month...");
+
+        // Get current month's income
+        const currentIncomeResult = await pool.query(`
+            SELECT COALESCE(SUM(amount), 0) AS current_income
+            FROM transaction
+            WHERE "type" = 'income'
+            AND transaction_date >= date_trunc('month', CURRENT_DATE)
+            AND transaction_date < date_trunc('month', CURRENT_DATE + INTERVAL '1 month');
+        `);
+        const currentIncome = parseFloat(currentIncomeResult.rows[0]?.current_income || 0);
+
+        // Get current month's expenses
+        const currentExpensesResult = await pool.query(`
+            SELECT COALESCE(SUM(amount), 0) AS current_expenses
+            FROM transaction
+            WHERE "type" = 'expense'
+            AND transaction_date >= date_trunc('month', CURRENT_DATE)
+            AND transaction_date < date_trunc('month', CURRENT_DATE + INTERVAL '1 month');
+        `);
+        const currentExpenses = parseFloat(currentExpensesResult.rows[0]?.current_expenses || 0);
+
+        // Calculate Net Savings for the current month
+        const currentNetSavings = currentIncome - currentExpenses;
+
+        // Get last month's income
+        const previousIncomeResult = await pool.query(`
+            SELECT COALESCE(SUM(amount), 0) AS previous_income
+            FROM transaction
+            WHERE "type" = 'income'
+            AND transaction_date >= date_trunc('month', CURRENT_DATE - INTERVAL '1 month')
+            AND transaction_date < date_trunc('month', CURRENT_DATE);
+        `);
+        const previousIncome = parseFloat(previousIncomeResult.rows[0]?.previous_income || 0);
+
+        // Get last month's expenses
+        const previousExpensesResult = await pool.query(`
+            SELECT COALESCE(SUM(amount), 0) AS previous_expenses
+            FROM transaction
+            WHERE "type" = 'expense'
+            AND transaction_date >= date_trunc('month', CURRENT_DATE - INTERVAL '1 month')
+            AND transaction_date < date_trunc('month', CURRENT_DATE);
+        `);
+        const previousExpenses = parseFloat(previousExpensesResult.rows[0]?.previous_expenses || 0);
+
+        // Calculate Net Savings for the previous month
+        const previousNetSavings = previousIncome - previousExpenses;
+
+        // Calculate percentage change
+        const percentageChange = previousNetSavings !== 0
+            ? ((currentNetSavings - previousNetSavings) / Math.abs(previousNetSavings)) * 100
+            : currentNetSavings > 0 ? 100 : 0;
+
+        console.log("Net Savings API Response:", {
+            currentNetSavings,
+            previousNetSavings,
+            percentageChange
+        });
+
+        res.json({
+            currentNetSavings,
+            previousNetSavings,
+            percentageChange
+        });
+
+    } catch (error) {
+        console.error("Error fetching net savings:", error);
+        res.status(500).json({ error: "Internal Server Error", details: error.message });
+    }
+});
+
+
+
 
 
 module.exports = router;

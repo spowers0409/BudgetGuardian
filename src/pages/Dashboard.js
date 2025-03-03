@@ -12,6 +12,16 @@ const Dashboard = () => {
     const [incomeThisMonth, setIncomeThisMonth] = useState(0);
     const [incomeChange, setIncomeChange] = useState(0);
 
+    // Expenses this month
+    const [expensesThisMonth, setExpensesThisMonth] = useState(0);
+    const [expensesChange, setExpensesChange] = useState(0);
+
+    // Net Savings
+    const [netSavings, setNetSavings] = useState(0);
+    const [savingsChange, setSavingsChange] = useState(0);
+
+
+
     useEffect(() => {
         // const fetchTotalBalance = async () => {
         //     try {
@@ -82,8 +92,8 @@ const Dashboard = () => {
         const fetchIncomeThisMonth = async () => {
             try {
                 // const response = await fetch("https://budgetguardian-backend.onrender.com/api/dashboard/income-this-month");
-                const response = await fetch(`${API_BASE_URL}/income-this-month`)
-                const text = await response.text()
+                const response = await fetch(`${API_BASE_URL}/income-this-month`);
+                const text = await response.text();
                 console.log("Raw Income API Response:", text);
 
                 const data = JSON.parse(text);
@@ -94,10 +104,49 @@ const Dashboard = () => {
             } catch (error) {
                 console.error("Error fetching income this month:", error);
             }
-        };        
+        };
+        
+        const fetchExpensesThisMonth = async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/expenses-this-month`);
+                const text = await response.text();
+                console.log("Raw Expenses API Response:", text);
+        
+                const data = JSON.parse(text);
+                console.log("Parsed Expenses API Data:", data);
+        
+                setExpensesThisMonth(data.currentExpenses ?? 0);
+                setExpensesChange(data.percentageChange ?? 0);
+            } catch (error) {
+                console.error("Error fetching expenses this month:", error);
+            }
+        };
+
+        const fetchNetSavings = async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/net-savings`);
+                const text = await response.text();
+                console.log("Raw Net Savings API Response:", text);
+        
+                const data = JSON.parse(text);
+                console.log("Parsed Net Savings API Data:", data);
+        
+                setNetSavings(data.currentNetSavings ?? 0);
+                setSavingsChange(data.percentageChange ?? 0);
+            } catch (error) {
+                console.error("Error fetching net savings:", error);
+            }
+        };
+        
+        // useEffect(() => {
+        //     fetchNetSavings();
+        // }, []);
+        
 
         fetchTotalBalance();
         fetchIncomeThisMonth();
+        fetchExpensesThisMonth();
+        fetchNetSavings();
     }, []);
 
     const formatCurrency = (amount) => {
@@ -129,10 +178,23 @@ const Dashboard = () => {
                     percentage={incomeChange}
                     icon="/icons/income.png"
                 />
+                <DashboardCard
+                    title="Expenses This Month"
+                    amount={formatCurrency(expensesThisMonth)}
+                    percentage={expensesChange}
+                    icon="/icons/expenses.png"
+                />
+                <DashboardCard
+                    title="Net Savings"
+                    amount={formatCurrency(netSavings)}
+                    percentage={savingsChange}
+                    icon="/icons/savings.png"
+                />
+
                 {/* <DashboardCard title="Total Balance" amount="12,345.67" percentage={5} icon="/icons/balance.png" /> */}
                 {/* <DashboardCard title="Income This Month" amount="4,200.00" percentage={2} icon="/icons/income.png" /> */}
-                <DashboardCard title="Expenses This Month" amount="2,300.00" percentage={-1} icon="/icons/expenses.png" />
-                <DashboardCard title="Net Savings" amount="1,900.00" percentage={4} icon="/icons/savings.png" />
+                {/* <DashboardCard title="Expenses This Month" amount="2,300.00" percentage={-1} icon="/icons/expenses.png" /> */}
+                {/* <DashboardCard title="Net Savings" amount="1,900.00" percentage={4} icon="/icons/savings.png" /> */}
             </div>
 
             {/* Rows 2, 3, 4 - Chart Cards */}

@@ -422,6 +422,12 @@ const ensureIncomeBudget = async () => {
 
 ensureIncomeBudget();
 
+app._router.stack.forEach((r) => {
+    if (r.route && r.route.path) {
+        console.log(`Available Route: ${r.route.path}`);
+    }
+});
+
 
 const PORT = process.env.PORT || 10000; // Previously 5000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
