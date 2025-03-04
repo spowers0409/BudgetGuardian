@@ -196,8 +196,8 @@ app.post("/api/transactions", async (req, res) => {
         // Update spent amount in budget table **only if it's an expense**
         if (type === 'expense') {
             await pool.query(
-                `UPDATE budget 
-                 SET spent = COALESCE(spent, 0) + $1
+                // `UPDATE budget 
+                 `SET spent = COALESCE(spent, 0) + $1
                  WHERE category = $2`,
                 [amount, category]
             );
@@ -218,19 +218,16 @@ app.post("/api/transactions", async (req, res) => {
 
 
 
-// Get all unique budget categories for transactions
 // app.get("/api/budget-categories", async (req, res) => {
 //     try {
 //         const result = await pool.query("SELECT category FROM budget");
+//         let categories = result.rows.map(row => row.category);
 
-//         let categories = result.rows.map((item) => item.category);
-
-//         // Income is always included no matter what is added from budgets
 //         if (!categories.includes("Income")) {
 //             categories.unshift("Income");
 //         }
 
-//         res.json(categories); // Chhanged from result.rows to show Income
+//         res.json(categories);
 //     } catch (err) {
 //         console.error("Error fetching budget categories:", err.message);
 //         res.status(500).send("Server Error");
@@ -239,19 +236,20 @@ app.post("/api/transactions", async (req, res) => {
 
 app.get("/api/budget-categories", async (req, res) => {
     try {
-        const result = await pool.query("SELECT category FROM budget");
-        let categories = result.rows.map(row => row.category);
+        const result = await pool.query(`
+            SELECT category FROM budget
+            WHERE category != 'Income' 
+            ORDER BY category ASC;
+        `);
 
-        if (!categories.includes("Income")) {
-            categories.unshift("Income");
-        }
-
+        const categories = result.rows.map(row => row.category);
         res.json(categories);
     } catch (err) {
         console.error("Error fetching budget categories:", err.message);
         res.status(500).send("Server Error");
     }
 });
+
 
 
 // Get all budgets
