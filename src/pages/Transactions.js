@@ -42,22 +42,34 @@ const Transactions = () => {
 // }, []);
 
   useEffect(() => {
-    console.log("🔥 useEffect triggered!");
+    console.log("useEffect triggered!");
     const fetchBudgetCategories = async () => {
       try {
-        const response = await fetch("https://budgetguardian-backend.onrender.com/api/budget-categories");
-        const data = await response.json();
+          const response = await fetch("https://budgetguardian-backend.onrender.com/api/budget-categories");
+          const data = await response.json();
 
-        let categories = data.map((item) => item.category);
+          // 🛠️ Fix: Make sure we're mapping correctly
+          if (!Array.isArray(data)) {
+              console.error("🚨 Unexpected API response format:", data);
+              return;
+          }
 
-        if (!categories.includes("Income")) {
-          categories = ["Income", ...categories];
-        }
+          const categories = data.map(item => {
+              if (typeof item === "string") {
+                  return item; // ✅ Handle plain string categories
+              } else if (typeof item === "object" && item.category) {
+                  return item.category; // ✅ Handle { category: "X" } objects
+              } else {
+                  console.warn("⚠️ Skipping unexpected category format:", item);
+                  return null; 
+              }
+          }).filter(Boolean); // 🚀 Remove any null values
 
-        setBudgetCategories(categories);
+          setBudgetCategories(categories);
+          console.log("✅ Processed Categories for Transactions Dropdown:", categories);
       } catch (error) {
-          console.error("Error fetching budget categories:", error)
-        }
+          console.error("Error fetching budget categories:", error);
+      }
     };
     fetchBudgetCategories();
   }, []);

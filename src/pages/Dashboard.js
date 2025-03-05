@@ -195,7 +195,9 @@ const Dashboard = () => {
             } catch (error) {
                 console.error("Error fetching recent transactions:", error);
             }
-        };        
+        };    
+        
+        
 
         fetchTotalBalance();
         fetchIncomeThisMonth();
