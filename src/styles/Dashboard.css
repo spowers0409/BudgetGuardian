@@ -125,3 +125,32 @@
 .chart-card.wide {
   grid-column: span 2;
 }
+
+.recent-transactions-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.recent-transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: white;
+}
+
+.recent-transactions-table th,
+.recent-transactions-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.recent-transactions-table th {
+  background: #f4f4f4;
+  font-weight: bold;
+}
+
+.transaction-amount {
+  text-align: right;
+}
+

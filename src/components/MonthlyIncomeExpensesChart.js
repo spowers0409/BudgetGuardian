@@ -23,43 +23,43 @@ const MonthlyIncomeExpensesChart = ({ data }) => {
 
     const options = {
         responsive: true,
-        maintainAspectRatio: false, // Important to control height
+        maintainAspectRatio: false,
         scales: {
             x: {
                 grid: {
-                    display: false, // Hide vertical grid lines
+                    display: false,
                 },
                 ticks: {
                     font: {
-                        size: 13, // Slightly smaller for a cleaner look
+                        size: 13,
                     },
-                    padding: 5, // Spacing below labels
+                    padding: 5,
                 }
             },
             y: {
                 grid: {
-                    color: "#e0e0e0", // Light gray horizontal grid lines
-                    borderDash: [4, 4], // Dotted lines
+                    color: "#e0e0e0",
+                    borderDash: [4, 4],
                 },
                 ticks: {
                     font: {
                         size: 12,
                     },
-                    padding: 10, // Extra spacing on the Y-axis
-                    callback: (value) => `$${value.toLocaleString()}`, // Format with $
+                    padding: 10,
+                    callback: (value) => `$${value.toLocaleString()}`,
                 }
             }
         },
         plugins: {
             legend: {
-                display: false, // Hide legend for a cleaner look
+                display: false,
             },
             tooltip: {
-                enabled: false, // No tooltips on hover
+                enabled: false,
             }
         },
-        barPercentage: 0.6, // Adjust bar thickness
-        categoryPercentage: 0.5, // More spacing between bars
+        barPercentage: 0.6,
+        categoryPercentage: 0.5,
     };
     
     

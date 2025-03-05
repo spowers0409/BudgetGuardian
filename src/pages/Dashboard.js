@@ -3,6 +3,8 @@ import DashboardCard from "../components/DashboardCard";
 import "../styles/Dashboard.css";
 import MonthlyIncomeExpensesChart from "../components/MonthlyIncomeExpensesChart";
 import BudgetAllocationChart from "../components/BudgetAllocationChart";
+import RecentTransactions from "../components/RecentTransactions";
+
 
 const Dashboard = () => {
     const [totalBalance, setTotalBalance] = useState(null);
@@ -27,6 +29,9 @@ const Dashboard = () => {
 
     // Budget Allocation by Category
     const [budgetData, setBudgetData] = useState([]);
+
+    // Recent Transactions
+    const [recentTransactions, setRecentTransactions] = useState([]);
 
 
 
@@ -162,8 +167,6 @@ const Dashboard = () => {
             }
         };
 
-        
-
         const fetchBudgetAllocation = async () => {
             try {
                 const response = await fetch(`${API_BASE_URL}/budget-allocation`);
@@ -177,12 +180,22 @@ const Dashboard = () => {
             } catch (error) {
                 console.error("Error fetching budget allocation:", error);
             }
-        };              
+        };
         
-        // useEffect(() => {
-        //     fetchNetSavings();
-        // }, []);
+        const fetchTransactions = async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/recent-transactions`);
+                const text = await response.text();
+                console.log("Raw Transactions API Response:", text);
         
+                const data = JSON.parse(text);
+                console.log("Parsed Transactions API Data:", data);
+        
+                setRecentTransactions(data);
+            } catch (error) {
+                console.error("Error fetching recent transactions:", error);
+            }
+        };        
 
         fetchTotalBalance();
         fetchIncomeThisMonth();
@@ -190,6 +203,7 @@ const Dashboard = () => {
         fetchNetSavings();
         fetchMonthlyData();
         fetchBudgetAllocation();
+        fetchTransactions();
     }, []);
 
     const formatCurrency = (amount) => {
@@ -256,6 +270,12 @@ const Dashboard = () => {
                         <BudgetAllocationChart data={budgetData} />
                     </div>
                 </div>
+                <div className="chart-card">
+                    <h2>Recent Transactions</h2>
+                    <RecentTransactions transactions={recentTransactions} />
+                </div>
+
+
 
                 {/* <div className="chart-card">
                     <h2>Monthly Income vs Expenses</h2>
@@ -268,10 +288,10 @@ const Dashboard = () => {
                 </div> */}
 
                 {/* Row 3 */}
-                <div className="chart-card">
+                {/* <div className="chart-card">
                     <h2>Recent Transactions</h2>
                     <p>Placeholder for table</p>
-                </div>
+                </div> */}
                 <div className="chart-card">
                     <h2>Savings Goals Progress</h2>
                     <p>Placeholder for progress chart</p>

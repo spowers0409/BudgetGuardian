@@ -335,11 +335,31 @@ router.get("/budget-allocation", async (req, res) => {
     }
 });
 
+router.get("/recent-transactions", async (req, res) => {
+    try {
+        console.log("🔍 Fetching recent transactions...");
+        
+        const transactionsResult = await pool.query(`
+            SELECT transaction_date, category, amount 
+            FROM transaction
+            WHERE type = 'expense'
+            ORDER BY transaction_date DESC
+            LIMIT 10;
+        `);
 
+        const recentTransactions = transactionsResult.rows.map(row => ({
+            date: row.transaction_date,
+            category: row.category,
+            amount: parseFloat(row.amount)
+        }));
 
-
-
-
+        console.log("Recent Transactions API Response:", recentTransactions);
+        res.json(recentTransactions);
+    } catch (error) {
+        console.error("Error fetching recent transactions:", error);
+        res.status(500).json({ error: "Internal Server Error", details: error.message });
+    }
+});
 
 router.get("/debug-database", async (req, res) => {
     try {
