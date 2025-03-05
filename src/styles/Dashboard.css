@@ -102,20 +102,20 @@
   background: white;
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 100%; /* Prevents stretching */
+  max-width: 100%;
 }
 
 .chart-card h2 {
   font-size: 16px;
   font-weight: bold;
-  margin-bottom: 10px; /* Space below title */
+  margin-bottom: 10px;
   text-align: center;
 }
 
 .chart-container {
-  width: 95%; /* Keep within the card */
-  max-width: 600px; /* Prevents infinite stretch */
-  height: 300px; /* Keeps height fixed */
+  width: 95%;
+  max-width: 600px;
+  height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -128,14 +128,19 @@
 
 .recent-transactions-container {
   width: 100%;
-  overflow-x: auto;
+  background: white;
+}
+
+.recent-transactions-scrollable {
+  max-height: 200px;
+  overflow-y: auto;
+  display: block;
 }
 
 .recent-transactions-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
-  background: white;
 }
 
 .recent-transactions-table th,
@@ -153,4 +158,5 @@
 .transaction-amount {
   text-align: right;
 }
+
 

@@ -340,15 +340,15 @@ router.get("/recent-transactions", async (req, res) => {
         console.log("🔍 Fetching recent transactions...");
         
         const transactionsResult = await pool.query(`
-            SELECT transaction_date, category, amount 
+            SELECT transaction_date AS date, category, amount
             FROM transaction
             WHERE type = 'expense'
+            AND transaction_date >= date_trunc('month', CURRENT_DATE)
             ORDER BY transaction_date DESC
-            LIMIT 10;
         `);
 
         const recentTransactions = transactionsResult.rows.map(row => ({
-            date: row.transaction_date,
+            date: row.date,
             category: row.category,
             amount: parseFloat(row.amount)
         }));
