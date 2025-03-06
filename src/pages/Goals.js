@@ -36,7 +36,7 @@ const Goals = () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ 
                 name: newGoal.name, 
-                goal_amount: newGoal.target // ✅ Change target_amount to goal_amount
+                goal_amount: newGoal.target
             }),
         });
 
@@ -47,7 +47,7 @@ const Goals = () => {
         const savedGoal = await response.json();
         console.log("Goal Added:", savedGoal);
 
-        setGoals([...goals, savedGoal]);  // ✅ Update UI
+        setGoals(prevGoals => [...prevGoals, savedGoal]); 
     } catch (error) {
         console.error("Error adding goal:", error);
     }
