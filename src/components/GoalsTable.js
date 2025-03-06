@@ -13,6 +13,7 @@ const GoalsTable = () => {
 
         const data = await response.json();
         console.log("Fetched Goals:", data);
+
         setGoals(data);
       } catch (error) {
         console.error("Error fetching goals:", error);
@@ -38,9 +39,9 @@ const GoalsTable = () => {
             goals.map((goal) => (
               <tr key={goal.goal_id}>
                 <td>{goal.goal_name}</td>
-                <td>${goal.target_amount.toLocaleString()}</td>
-                <td>${goal.saved_amount.toLocaleString()}</td>
-                <td>${(goal.target_amount - goal.saved_amount).toLocaleString()}</td>
+                <td>${goal.target_amount?.toLocaleString() || "0"}</td>  {/* ✅ Fixed */}
+                <td>${goal.saved_amount?.toLocaleString() || "0"}</td>
+                <td>${((goal.target_amount || 0) - (goal.saved_amount || 0)).toLocaleString()}</td>
               </tr>
             ))
           ) : (

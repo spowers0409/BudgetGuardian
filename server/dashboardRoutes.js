@@ -392,12 +392,21 @@ router.get("/goals", async (req, res) => {
 
         console.log("Query Success! Result:", result.rows); // Log query output
 
-        res.json(result.rows);
+        // Transform the result to match what the frontend expects
+        const goals = result.rows.map(row => ({
+            goal_id: row.goal_id,
+            goal_name: row.goal_name,
+            target_amount: parseFloat(row.goal_amount),
+            saved_amount: parseFloat(row.saved_amount) || 0
+        }));
+
+        res.json(goals);
     } catch (error) {
         console.error("Error fetching goals:", error.stack); // Print full error stack
         res.status(500).json({ error: "Internal Server Error", details: error.message });
     }
 });
+
 
 
 // Router debug
@@ -423,7 +432,7 @@ router.post("/goals", async (req, res) => {
         }
 
         const newGoal = await pool.query(
-            `INSERT INTO goal (name, target_amount, saved_amount) VALUES ($1, $2, 0) RETURNING *`,
+            `INSERT INTO goal (name, goal_amount, saved_amount) VALUES ($1, $2, 0) RETURNING *`,
             [name, target_amount]
         );
 
