@@ -464,18 +464,19 @@ router.put("/goals/:id/add-savings", async (req, res) => {
             return res.status(400).json({ error: "Invalid amount" });
         }
 
-        // Get current saved amount
+        // Get current goal
         const goalQuery = await pool.query(`SELECT * FROM goal WHERE goal_id = $1`, [id]);
         if (goalQuery.rows.length === 0) {
             return res.status(404).json({ error: "Goal not found" });
         }
 
+        // Update goal savings
         const updatedGoal = await pool.query(
             `UPDATE goal SET saved_amount = saved_amount + $1 WHERE goal_id = $2 RETURNING *`,
             [amount, id]
         );
 
-        console.log("Updated Goal:", updatedGoal.rows[0]);
+        console.log("Goal Updated:", updatedGoal.rows[0]);
 
         // Deduct from Total Balance
         await pool.query(
@@ -496,6 +497,7 @@ router.put("/goals/:id/add-savings", async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
 
 router.stack.forEach((r) => {
     if (r.route && r.route.path) {

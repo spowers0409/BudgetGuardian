@@ -19,14 +19,14 @@ const GoalsTable = ({ goals }) => {
               console.log("DEBUG: Goal Data -", goal);
 
               // Ensure values are properly parsed and prevent errors
-              const targetAmount = goal.goal_amount ? parseFloat(goal.goal_amount) : 0;
-              const savedAmount = goal.saved_amount ? parseFloat(goal.saved_amount) : 0;
-              const amountLeft = targetAmount - savedAmount;
+              // const targetAmount = goal.goal_amount ? parseFloat(goal.goal_amount) : 0;
+              // const savedAmount = goal.saved_amount ? parseFloat(goal.saved_amount) : 0;
+              // const amountLeft = targetAmount - savedAmount;
 
               return (
                 <tr key={goal.goal_id}>
                   <td>{goal.goal_name}</td>
-                  <td>${goal.target_amount?.toLocaleString() || "0"}</td>
+                  <td>${goal.target_amount?.toLocaleString() || "0"}</td> 
                   <td>${goal.saved_amount?.toLocaleString() || "0"}</td>
                   <td>${((goal.target_amount || 0) - (goal.saved_amount || 0)).toLocaleString()}</td>
                 </tr>

@@ -4,6 +4,7 @@ import "../styles/Dashboard.css";
 import MonthlyIncomeExpensesChart from "../components/MonthlyIncomeExpensesChart";
 import BudgetAllocationChart from "../components/BudgetAllocationChart";
 import RecentTransactions from "../components/RecentTransactions";
+import GoalsProgressChart from "../components/GoalsProgressChart";
 
 
 const Dashboard = () => {
@@ -32,6 +33,13 @@ const Dashboard = () => {
 
     // Recent Transactions
     const [recentTransactions, setRecentTransactions] = useState([]);
+
+    const updateDashboardData = async () => {
+        console.log("Refreshing Dashboard Data...");
+        // await fetchTotalBalance();
+        // await fetchExpensesThisMonth();
+    };
+    
 
 
 
@@ -196,6 +204,8 @@ const Dashboard = () => {
                 console.error("Error fetching recent transactions:", error);
             }
         };    
+
+        
         
         
 
@@ -276,6 +286,10 @@ const Dashboard = () => {
                     <h2>Recent Transactions</h2>
                     <RecentTransactions transactions={recentTransactions} />
                 </div>
+                <div className="chart-card">
+                    <h2>Savings Goals Progress</h2>
+                    <GoalsProgressChart updateDashboardData={updateDashboardData} />
+                </div>
 
 
 
@@ -294,10 +308,10 @@ const Dashboard = () => {
                     <h2>Recent Transactions</h2>
                     <p>Placeholder for table</p>
                 </div> */}
-                <div className="chart-card">
+                {/* <div className="chart-card">
                     <h2>Savings Goals Progress</h2>
                     <p>Placeholder for progress chart</p>
-                </div>
+                </div> */}
 
                 {/* Row 4 */}
                 <div className="chart-card">
