@@ -36,6 +36,7 @@ const Goals = () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ 
                 name: newGoal.name, 
+                // goal_amount: Number(newGoal.target)
                 goal_amount: newGoal.target
             }),
         });
@@ -44,14 +45,56 @@ const Goals = () => {
             throw new Error(`Failed to add goal: ${response.statusText}`);
         }
 
-        const savedGoal = await response.json();
-        console.log("Goal Added:", savedGoal);
+        // const savedGoal = await response.json();
+        let savedGoal = await response.json();
+        console.log("Goal Added Successfully:", savedGoal);
 
-        setGoals(prevGoals => [...prevGoals, savedGoal]); 
+        // Make sure all data types are correct before updating state
+        savedGoal = {
+          ...savedGoal,
+          target_amount: parseFloat(savedGoal.goal_amount),  // Convert from string to number
+          saved_amount: parseFloat(savedGoal.saved_amount)   // Convert from string to number
+      };
+        // const formattedGoal = {
+        //     goal_id: savedGoal.goal_id,
+        //     goal_name: savedGoal.goal_name,
+        //     goal_amount: parseFloat(savedGoal.goal_amount),
+        //     saved_amount: parseFloat(savedGoal.saved_amount) || 0,
+        // };
+
+        // Update state using functional update to avoid stale state
+        // setGoals(prevGoals => [...prevGoals, formattedGoal]);
+        setGoals([...goals, savedGoal]);
     } catch (error) {
         console.error("Error adding goal:", error);
     }
-  };
+};
+
+
+
+  // const addGoal = async (newGoal) => {
+  //   try {
+  //       const response = await fetch("https://budgetguardian-backend.onrender.com/api/dashboard/goals", {
+  //           method: "POST",
+  //           headers: { "Content-Type": "application/json" },
+  //           body: JSON.stringify({ 
+  //               name: newGoal.name, 
+  //               goal_amount: newGoal.target
+  //           }),
+  //       });
+
+  //       if (!response.ok) {
+  //           throw new Error(`Failed to add goal: ${response.statusText}`);
+  //       }
+
+  //       const savedGoal = await response.json();
+  //       console.log("Goal Added:", savedGoal);
+
+  //       setGoals(prevGoals => [...prevGoals, savedGoal]); 
+  //   } catch (error) {
+  //       console.error("Error adding goal:", error);
+  //   }
+  // };
 
 
   return (
