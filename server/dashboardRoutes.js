@@ -426,23 +426,34 @@ router.get("/goals", async (req, res) => {
 
 router.post("/goals", async (req, res) => {
     try {
-        const { name, target_amount } = req.body;
-        if (!name || isNaN(target_amount)) {
+        console.log("Incoming POST Data:", req.body);
+
+        const { name, goal_amount } = req.body;
+
+        console.log("Name:", name);
+        console.log("Goal Amount:", goal_amount, "Type:", typeof goal_amount);
+
+        if (!name || isNaN(goal_amount)) {
+            console.error("Invalid goal data received:", req.body);
             return res.status(400).json({ error: "Invalid goal data" });
         }
 
         const newGoal = await pool.query(
-            `INSERT INTO goal (name, goal_amount, saved_amount) VALUES ($1, $2, 0) RETURNING *`,
-            [name, target_amount]
+            `INSERT INTO goal (goal_name, goal_amount, saved_amount) 
+             VALUES ($1, $2, 0) RETURNING *`,
+            [name, goal_amount]
         );
 
         console.log("Goal Added:", newGoal.rows[0]);
-        res.json(newGoal.rows[0]);
+        res.json(newGoal.rows[0]);  
     } catch (error) {
         console.error("Error adding goal:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
+
+
 
 router.put("/goals/:id/add-savings", async (req, res) => {
     try {

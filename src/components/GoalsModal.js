@@ -12,7 +12,7 @@ const GoalsModal = ({ isOpen, onClose, onAddGoal }) => {
       alert("Please enter valid goal details.");
       return;
     }
-    onAddGoal({ name: goalName, target: parseFloat(target), saved: parseFloat(saved) });
+    onAddGoal({ name: goalName, target: parseFloat(target) });
     setGoalName("");
     setTarget("");
     setSaved("");
@@ -44,14 +44,14 @@ const GoalsModal = ({ isOpen, onClose, onAddGoal }) => {
             required
           />
 
-          <label>Amount Saved:</label>
+          {/* <label>Amount Saved:</label>
           <input
             type="number"
             value={saved}
             onChange={(e) => setSaved(e.target.value)}
             placeholder="Enter amount saved"
             required
-          />
+          /> */}
 
           <div className="modal-buttons">
             <button type="submit" className="save-btn">Save Goal</button>

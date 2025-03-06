@@ -31,20 +31,28 @@ const Goals = () => {
   // Add a new goal
   const addGoal = async (newGoal) => {
     try {
-      const response = await fetch("https://budgetguardian-backend.onrender.com/api/dashboard/goals", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: newGoal.name, target_amount: newGoal.target }),
-      });
+        const response = await fetch("https://budgetguardian-backend.onrender.com/api/dashboard/goals", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ 
+                name: newGoal.name, 
+                goal_amount: newGoal.target // ✅ Change target_amount to goal_amount
+            }),
+        });
 
-      const savedGoal = await response.json();
-      console.log("Goal Added:", savedGoal);
+        if (!response.ok) {
+            throw new Error(`Failed to add goal: ${response.statusText}`);
+        }
 
-      setGoals([...goals, savedGoal]);
+        const savedGoal = await response.json();
+        console.log("Goal Added:", savedGoal);
+
+        setGoals([...goals, savedGoal]);  // ✅ Update UI
     } catch (error) {
-      console.error("Error adding goal:", error);
+        console.error("Error adding goal:", error);
     }
   };
+
 
   return (
     <div className="goals-page">
