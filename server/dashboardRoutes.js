@@ -3,6 +3,8 @@ const router = express.Router();
 // const db = require("./db"); // Database connection
 const pool = require("./db")
 
+console.log("✅ dashboardRoutes.js has been loaded!");
+
 // Get total balance and percentage change
 router.get("/total-balance", async (req, res) => {
     try {
@@ -370,9 +372,116 @@ router.get("/debug-database", async (req, res) => {
     }
 });
 
+// router.get("/goals", async (req, res) => {
+//     try {
+//         console.log("Fetching all goals...");
+//         const result = await pool.query(`SELECT * FROM goal ORDER BY goal_id ASC;`);
+//         res.json(result.rows);
+//     } catch (error) {
+//         console.error("Error fetching goals:", error);
+//         res.status(500).json({ error: "Internal Server Error" });
+//     }
+// });
+
+router.get("/goals", async (req, res) => {
+    try {
+        console.log("Fetching all goals...");
+
+        // Run the query
+        const result = await pool.query(`SELECT * FROM goal ORDER BY goal_id ASC;`);
+
+        console.log("Query Success! Result:", result.rows); // Log query output
+
+        res.json(result.rows);
+    } catch (error) {
+        console.error("Error fetching goals:", error.stack); // Print full error stack
+        res.status(500).json({ error: "Internal Server Error", details: error.message });
+    }
+});
+
+
+// Router debug
+// router.get("/goals", async (req, res) => {
+//     try {
+//         console.log("Testing basic SQL query...");
+//         const result = await pool.query("SELECT NOW();");  // Simple query to test DB connection
+//         console.log("Database response:", result.rows);
+//         res.json(result.rows);
+//     } catch (error) {
+//         console.error("Error in test route:", error);
+//         res.status(500).json({ error: "Internal Server Error", details: error.message });
+//     }
+// });
 
 
 
+router.post("/goals", async (req, res) => {
+    try {
+        const { name, target_amount } = req.body;
+        if (!name || isNaN(target_amount)) {
+            return res.status(400).json({ error: "Invalid goal data" });
+        }
+
+        const newGoal = await pool.query(
+            `INSERT INTO goal (name, target_amount, saved_amount) VALUES ($1, $2, 0) RETURNING *`,
+            [name, target_amount]
+        );
+
+        console.log("Goal Added:", newGoal.rows[0]);
+        res.json(newGoal.rows[0]);
+    } catch (error) {
+        console.error("Error adding goal:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+router.put("/goals/:id/add-savings", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { amount } = req.body;
+
+        if (!id || isNaN(amount) || amount <= 0) {
+            return res.status(400).json({ error: "Invalid amount" });
+        }
+
+        // Get current saved amount
+        const goalQuery = await pool.query(`SELECT * FROM goal WHERE goal_id = $1`, [id]);
+        if (goalQuery.rows.length === 0) {
+            return res.status(404).json({ error: "Goal not found" });
+        }
+
+        const updatedGoal = await pool.query(
+            `UPDATE goal SET saved_amount = saved_amount + $1 WHERE goal_id = $2 RETURNING *`,
+            [amount, id]
+        );
+
+        console.log("Updated Goal:", updatedGoal.rows[0]);
+
+        // Deduct from Total Balance
+        await pool.query(
+            `UPDATE transaction SET amount = amount - $1 WHERE type = 'income' RETURNING *`,
+            [amount]
+        );
+
+        // Add to Expenses This Month
+        await pool.query(
+            `INSERT INTO transaction (transaction_date, category, place, amount, type)
+             VALUES (CURRENT_DATE, 'Savings', 'Goal Contribution', $1, 'expense')`,
+            [amount]
+        );
+
+        res.json({ message: "Savings added successfully", goal: updatedGoal.rows[0] });
+    } catch (error) {
+        console.error("Error adding savings:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+router.stack.forEach((r) => {
+    if (r.route && r.route.path) {
+        console.log(`Loaded Dashboard Route: /api/dashboard${r.route.path}`);
+    }
+});
 
 
 module.exports = router;

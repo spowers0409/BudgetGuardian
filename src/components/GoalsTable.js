@@ -1,10 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/Goals.css";
 
-const GoalsTable = ({ goals }) => {
+const GoalsTable = () => {
+  const [goals, setGoals] = useState([]);
+
+  // Fetch goals from API
+  useEffect(() => {
+    const fetchGoals = async () => {
+      try {
+        const response = await fetch("https://budgetguardian-backend.onrender.com/api/dashboard/goals");
+        if (!response.ok) throw new Error("Failed to fetch goals");
+
+        const data = await response.json();
+        console.log("Fetched Goals:", data);
+        setGoals(data);
+      } catch (error) {
+        console.error("Error fetching goals:", error);
+      }
+    };
+
+    fetchGoals();
+  }, []);
+
   return (
     <div className="goals-dashboard">
-      {/* <h2>Goal Progress</h2> */}
       <table>
         <thead>
           <tr>
@@ -15,14 +34,20 @@ const GoalsTable = ({ goals }) => {
           </tr>
         </thead>
         <tbody>
-          {goals.map((goal, index) => (
-            <tr key={index}>
-              <td>{goal.name}</td>
-              <td>${goal.target.toLocaleString()}</td>
-              <td>${goal.saved.toLocaleString()}</td>
-              <td>${(goal.target - goal.saved).toLocaleString()}</td>
+          {goals.length > 0 ? (
+            goals.map((goal) => (
+              <tr key={goal.goal_id}>
+                <td>{goal.goal_name}</td>
+                <td>${goal.target_amount.toLocaleString()}</td>
+                <td>${goal.saved_amount.toLocaleString()}</td>
+                <td>${(goal.target_amount - goal.saved_amount).toLocaleString()}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="4" style={{ textAlign: "center" }}>No goals found</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>

@@ -48,25 +48,25 @@ const Transactions = () => {
           const response = await fetch("https://budgetguardian-backend.onrender.com/api/budget-categories");
           const data = await response.json();
 
-          // 🛠️ Fix: Make sure we're mapping correctly
+      
           if (!Array.isArray(data)) {
-              console.error("🚨 Unexpected API response format:", data);
+              console.error("Unexpected API response format:", data);
               return;
           }
 
           const categories = data.map(item => {
               if (typeof item === "string") {
-                  return item; // ✅ Handle plain string categories
+                  return item;
               } else if (typeof item === "object" && item.category) {
-                  return item.category; // ✅ Handle { category: "X" } objects
+                  return item.category;
               } else {
-                  console.warn("⚠️ Skipping unexpected category format:", item);
+                  console.warn("Skipping unexpected category format:", item);
                   return null; 
               }
-          }).filter(Boolean); // 🚀 Remove any null values
+          }).filter(Boolean);
 
           setBudgetCategories(categories);
-          console.log("✅ Processed Categories for Transactions Dropdown:", categories);
+          console.log("Processed Categories for Transactions Dropdown:", categories);
       } catch (error) {
           console.error("Error fetching budget categories:", error);
       }
@@ -83,21 +83,21 @@ const Transactions = () => {
     }
 
     // Determine transaction type based on category
-    const incomeCategories = ["Income", "Salary", "Paycheck", "Bonus"]; // Expand this list if needed
+    const incomeCategories = ["Income", "Salary", "Paycheck", "Bonus"];
     const transactionType = incomeCategories.includes(newTransaction.category) ? "income" : "expense";
 
-    fetch("https://budgetguardian-backend.onrender.com/api/transactions", { // Backend API
+    fetch("https://budgetguardian-backend.onrender.com/api/transactions", { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            ...newTransaction,  // Keep existing fields
-            type: transactionType // ✅ Add type field
+            ...newTransaction,
+            type: transactionType
         }),
     })
     .then((response) => response.json())
     .then((data) => {
         setTransactions([data, ...transactions]);
-        setNewTransaction({ transaction_date: "", category: "", place: "", amount: "", type: "" }); // Reset form
+        setNewTransaction({ transaction_date: "", category: "", place: "", amount: "", type: "" }); 
         setIsModalOpen(false);
     })
     .catch((error) => console.error("Error adding transaction:", error));
