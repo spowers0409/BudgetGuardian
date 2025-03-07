@@ -288,7 +288,7 @@ router.get("/monthly-income-expenses", async (req, res) => {
 
         // Ensure all months appear even if no transactions exist
         const allMonths = [
-            "January", "February", "March", "April", "May", "June",
+            "Januar", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
         ];
 
@@ -519,9 +519,12 @@ router.get("/expenses/monthly", async (req, res) => {
             ORDER BY months.month;
         `);
 
-        // Format response to include month names
+        // Get the current year dynamically
+        const currentYear = new Date().getFullYear();
+
+        // Format response to include month names dynamically
         const formattedData = result.rows.map(row => ({
-            month: new Date(2024, row.month - 1, 1).toLocaleString("default", { month: "short" }), // "Jan", "Feb", etc.
+            month: new Date(currentYear, row.month - 1, 1).toLocaleString("default", { month: "short" }),
             total_expenses: parseFloat(row.total_expenses)
         }));
 
@@ -531,6 +534,7 @@ router.get("/expenses/monthly", async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
 
 
 

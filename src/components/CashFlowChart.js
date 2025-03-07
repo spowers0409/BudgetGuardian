@@ -2,18 +2,17 @@ import React from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 
-// Register required chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const CashFlowChart = ({ data }) => {
     // Chart data
     const chartData = {
-        labels: data.map((item) => item.month), // X-axis labels
+        labels: data.map((item) => item.month),
         datasets: [
             {
                 label: "Expenses",
                 data: data.map((item) => item.expenses),
-                backgroundColor: "rgba(255, 87, 51, 0.7)", // Red with transparency
+                backgroundColor: "rgba(255, 87, 51, 0.7)",
                 borderColor: "rgba(255, 87, 51, 1)",
                 borderWidth: 1,
             },
@@ -24,7 +23,7 @@ const CashFlowChart = ({ data }) => {
     const chartOptions = {
         responsive: true,
         plugins: {
-            legend: { display: false }, // Hide legend since there's only one dataset
+            legend: { display: false },
             title: {
                 display: true,
                 text: "Monthly Cash Flow (Expenses)",
@@ -32,7 +31,7 @@ const CashFlowChart = ({ data }) => {
             },
         },
         scales: {
-            x: { grid: { display: false } }, // Hide x-axis grid lines
+            x: { grid: { display: false } },
             y: { beginAtZero: true },
         },
     };
