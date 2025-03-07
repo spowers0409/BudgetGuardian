@@ -498,6 +498,42 @@ router.put("/goals/:id/add-savings", async (req, res) => {
     }
 });
 
+// Add this new endpoint inside `dashboardRoutes.js`
+router.get("/expenses/monthly", async (req, res) => {
+    try {
+        console.log("Fetching monthly expenses...");
+
+        const result = await pool.query(`
+            SELECT 
+                months.month,
+                COALESCE(SUM(t.amount), 0) AS total_expenses
+            FROM (
+                SELECT 
+                    generate_series(1, 12) AS month
+            ) AS months
+            LEFT JOIN transaction t 
+                ON EXTRACT(MONTH FROM t.transaction_date) = months.month
+                AND EXTRACT(YEAR FROM t.transaction_date) = EXTRACT(YEAR FROM CURRENT_DATE)
+                AND t.type = 'expense'
+            GROUP BY months.month
+            ORDER BY months.month;
+        `);
+
+        // Format response to include month names
+        const formattedData = result.rows.map(row => ({
+            month: new Date(2024, row.month - 1, 1).toLocaleString("default", { month: "short" }), // "Jan", "Feb", etc.
+            total_expenses: parseFloat(row.total_expenses)
+        }));
+
+        res.json(formattedData);
+    } catch (error) {
+        console.error("Error fetching monthly expenses:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+
+
 
 router.stack.forEach((r) => {
     if (r.route && r.route.path) {

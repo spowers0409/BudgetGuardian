@@ -5,6 +5,8 @@ import MonthlyIncomeExpensesChart from "../components/MonthlyIncomeExpensesChart
 import BudgetAllocationChart from "../components/BudgetAllocationChart";
 import RecentTransactions from "../components/RecentTransactions";
 import GoalsProgressChart from "../components/GoalsProgressChart";
+import CashFlowChart from "../components/CashFlowChart";
+
 
 const Dashboard = () => {
     const [totalBalance, setTotalBalance] = useState(null);
@@ -23,6 +25,8 @@ const Dashboard = () => {
     const [monthlyData, setMonthlyData] = useState([]);
     const [budgetData, setBudgetData] = useState([]);
     const [recentTransactions, setRecentTransactions] = useState([]);
+
+    const [monthlyExpenses, setMonthlyExpenses] = useState([]);
 
     const API_BASE_URL = window.location.hostname === "localhost"
         ? "http://localhost:10000/api/dashboard"
@@ -110,6 +114,34 @@ const Dashboard = () => {
         }
     }, [API_BASE_URL]);
 
+    const fetchMonthlyExpenses = useCallback(async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/expenses/monthly`);
+            const data = await response.json();
+            console.log("Fetched Monthly Expenses:", data);
+    
+            // Ensure all months are present
+            const allMonths = [
+                "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+            ];
+    
+            const formattedData = allMonths.map((month) => {
+                const monthData = data.find((item) => item.month === month);
+                return {
+                    month,
+                    expenses: monthData ? parseFloat(monthData.total_expenses) : 0,
+                };
+            });
+    
+            setMonthlyExpenses(formattedData);
+        } catch (error) {
+            console.error("Error fetching monthly expenses:", error);
+        }
+    }, [API_BASE_URL]);
+    
+    
+
     // Update dashboard data when goals are updated
     const updateDashboardData = useCallback(async () => {
         console.log("🔄 Refreshing Dashboard Data...");
@@ -126,6 +158,7 @@ const Dashboard = () => {
         fetchMonthlyData();
         fetchBudgetAllocation();
         fetchTransactions();
+        fetchMonthlyExpenses();
     }, [
         fetchTotalBalance,
         fetchIncomeThisMonth,
@@ -133,7 +166,8 @@ const Dashboard = () => {
         fetchNetSavings,
         fetchMonthlyData,
         fetchBudgetAllocation,
-        fetchTransactions
+        fetchTransactions,
+        fetchMonthlyExpenses
     ]);
 
     const formatCurrency = (amount) => {
@@ -198,9 +232,9 @@ const Dashboard = () => {
                     <h2>Savings Goals Progress</h2>
                     <GoalsProgressChart updateDashboardData={updateDashboardData} />
                 </div>
-                <div className="chart-card">
-                    <h2>Cash Flow Chart</h2>
-                    <p>Placeholder for chart</p>
+                <div className="cashflow-chart-card">
+                    {/* <h2>Cash Flow Chart</h2> */}
+                    <CashFlowChart data={monthlyExpenses} />
                 </div>
                 <div className="chart-card">
                     <h2>Expense Breakdown</h2>
