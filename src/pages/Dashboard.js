@@ -6,6 +6,7 @@ import BudgetAllocationChart from "../components/BudgetAllocationChart";
 import RecentTransactions from "../components/RecentTransactions";
 import GoalsProgressChart from "../components/GoalsProgressChart";
 import CashFlowChart from "../components/CashFlowChart";
+import ExpenseBreakdownChart from "../components/ExpenseBreakdownChart";
 
 
 const Dashboard = () => {
@@ -27,6 +28,9 @@ const Dashboard = () => {
     const [recentTransactions, setRecentTransactions] = useState([]);
 
     const [monthlyExpenses, setMonthlyExpenses] = useState([]);
+
+    const [expenseBreakdown, setExpenseBreakdown] = useState([]);
+    const [totalExpenses, setTotalExpenses] = useState(0);
 
     const API_BASE_URL = window.location.hostname === "localhost"
         ? "http://localhost:10000/api/dashboard"
@@ -139,6 +143,20 @@ const Dashboard = () => {
             console.error("Error fetching monthly expenses:", error);
         }
     }, [API_BASE_URL]);
+
+    // Fetch Expense Breakdown
+    const fetchExpenseBreakdown = useCallback(async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/expense-breakdown`);
+            const data = await response.json();
+            console.log("Fetched Expense Breakdown:", data);
+
+            setTotalExpenses(data.totalExpenses);
+            setExpenseBreakdown(data.breakdown);
+        } catch (error) {
+            console.error("Error fetching expense breakdown:", error);
+        }
+    }, [API_BASE_URL]);
     
     
 
@@ -159,6 +177,7 @@ const Dashboard = () => {
         fetchBudgetAllocation();
         fetchTransactions();
         fetchMonthlyExpenses();
+        fetchExpenseBreakdown();
     }, [
         fetchTotalBalance,
         fetchIncomeThisMonth,
@@ -167,7 +186,8 @@ const Dashboard = () => {
         fetchMonthlyData,
         fetchBudgetAllocation,
         fetchTransactions,
-        fetchMonthlyExpenses
+        fetchMonthlyExpenses,
+        fetchExpenseBreakdown
     ]);
 
     const formatCurrency = (amount) => {
@@ -236,9 +256,13 @@ const Dashboard = () => {
                     {/* <h2>Cash Flow Chart</h2> */}
                     <CashFlowChart data={monthlyExpenses} />
                 </div>
-                <div className="chart-card">
+                {/* <div className="chart-card">
                     <h2>Expense Breakdown</h2>
                     <p>Placeholder for breakdown</p>
+                </div> */}
+                <div className="chart-card">
+                    {/* <h2>Expense Breakdown</h2> */}
+                    <ExpenseBreakdownChart data={expenseBreakdown} totalExpenses={totalExpenses} />
                 </div>
             </div>
         </div>

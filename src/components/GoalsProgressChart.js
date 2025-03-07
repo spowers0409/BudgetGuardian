@@ -43,10 +43,10 @@ const GoalsProgressChart = ({ updateDashboardData }) => {
         if (!response.ok) throw new Error("Failed to update goal savings");
 
         const data = await response.json();
-        console.log("✅ Updated Goal Response:", data);
+        console.log("Updated Goal Response:", data);
 
         if (!data.goal || typeof data.goal.saved_amount === "undefined") {
-            console.error("🚨 Missing saved_amount in response:", data);
+            console.error("Missing saved_amount in response:", data);
             return;
         }
 
@@ -59,7 +59,7 @@ const GoalsProgressChart = ({ updateDashboardData }) => {
             )
         );
 
-        // Trigger Dashboard Refresh (Total Balance & Expenses This Month)
+        // Trigger Dashboard Refresh
         updateDashboardData();
 
         setSelectedGoal(null);

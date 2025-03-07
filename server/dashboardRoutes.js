@@ -535,6 +535,43 @@ router.get("/expenses/monthly", async (req, res) => {
     }
 });
 
+router.get("/expense-breakdown", async (req, res) => {
+    try {
+        console.log("🔍 Fetching expense breakdown by category...");
+
+        // Get current year and month dynamically
+        const currentYear = new Date().getFullYear();
+        const currentMonth = new Date().getMonth() + 1; // JavaScript months are 0-based
+
+        // Query to get total expenses by category for the current month
+        const result = await pool.query(`
+            SELECT category, COALESCE(SUM(amount), 0) AS total
+            FROM transaction
+            WHERE type = 'expense'
+            AND EXTRACT(YEAR FROM transaction_date) = $1
+            AND EXTRACT(MONTH FROM transaction_date) = $2
+            GROUP BY category
+            ORDER BY total DESC;
+        `, [currentYear, currentMonth]);
+
+        // Calculate total expenses
+        const totalExpenses = result.rows.reduce((sum, row) => sum + parseFloat(row.total), 0);
+
+        // Format response to include percentage calculations
+        const formattedData = result.rows.map(row => ({
+            category: row.category,
+            total: parseFloat(row.total),
+            percentage: totalExpenses > 0 ? ((parseFloat(row.total) / totalExpenses) * 100).toFixed(2) : 0
+        }));
+
+        console.log("Expense Breakdown API Response:", formattedData);
+        res.json({ totalExpenses, breakdown: formattedData });
+
+    } catch (error) {
+        console.error("Error fetching expense breakdown:", error);
+        res.status(500).json({ error: "Internal Server Error", details: error.message });
+    }
+});
 
 
 
