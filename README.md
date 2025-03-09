@@ -19,10 +19,10 @@
 - ✅ **User Settings:** Currency selection, dark mode toggle, and email notification preferences.
 - ✅ **Full-Stack Deployment:** Hosted frontend on Vercel and backend on Render.
 - ✅ **Enhanced User Profile:** Ability to update name, email, and password.
+- ✅ **Dashboard & Graphs:** Adding data visualization for spending trends.
 
 ## Features In Progress
 
-- 🚧 **Dashboard & Graphs:** Adding data visualization for spending trends.
 - 🚧 **Performance Optimizations:** Improving API response times and database indexing.
 - 🚧 **Error Handling & Notifications:** Displaying user-friendly error messages.
 - 🚧 **Security Enhancements:** Password hashing for better security.
