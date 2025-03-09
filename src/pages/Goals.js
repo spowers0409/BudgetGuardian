@@ -64,38 +64,11 @@ const Goals = () => {
 
         // Update state using functional update to avoid stale state
         // setGoals(prevGoals => [...prevGoals, formattedGoal]);
-        setGoals([...goals, savedGoal]);
+        setGoals((prevGoals) => [...prevGoals, savedGoal]);
     } catch (error) {
         console.error("Error adding goal:", error);
     }
 };
-
-
-
-  // const addGoal = async (newGoal) => {
-  //   try {
-  //       const response = await fetch("https://budgetguardian-backend.onrender.com/api/dashboard/goals", {
-  //           method: "POST",
-  //           headers: { "Content-Type": "application/json" },
-  //           body: JSON.stringify({ 
-  //               name: newGoal.name, 
-  //               goal_amount: newGoal.target
-  //           }),
-  //       });
-
-  //       if (!response.ok) {
-  //           throw new Error(`Failed to add goal: ${response.statusText}`);
-  //       }
-
-  //       const savedGoal = await response.json();
-  //       console.log("Goal Added:", savedGoal);
-
-  //       setGoals(prevGoals => [...prevGoals, savedGoal]); 
-  //   } catch (error) {
-  //       console.error("Error adding goal:", error);
-  //   }
-  // };
-
 
   return (
     <div className="goals-page">

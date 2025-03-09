@@ -479,10 +479,10 @@ router.put("/goals/:id/add-savings", async (req, res) => {
         console.log("Goal Updated:", updatedGoal.rows[0]);
 
         // Deduct from Total Balance
-        await pool.query(
-            `UPDATE transaction SET amount = amount - $1 WHERE type = 'income' RETURNING *`,
-            [amount]
-        );
+        // await pool.query(
+        //     `UPDATE transaction SET amount = amount - $1 WHERE type = 'income' RETURNING *`,
+        //     [amount]
+        // );
 
         // Add to Expenses This Month
         await pool.query(
