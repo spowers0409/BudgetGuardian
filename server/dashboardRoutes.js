@@ -120,7 +120,7 @@ router.get("/income-this-month", async (req, res) => {
 
         // Calculate percentage change
         const percentageChange = previousIncome !== 0
-            ? ((currentIncome - previousIncome) / Math.abs(previousIncome)) * 100
+            ? Math.round(((currentIncome - previousIncome) / Math.abs(previousIncome)) * 100)
             : currentIncome > 0 ? 100 : 0;
 
         console.log("Income This Month API Response:", {
@@ -169,7 +169,7 @@ router.get("/expenses-this-month", async (req, res) => {
 
         // Calculate percentage change
         const percentageChange = previousExpenses !== 0
-            ? ((currentExpenses - previousExpenses) / Math.abs(previousExpenses)) * 100
+            ? Math.round(((currentExpenses - previousExpenses) / Math.abs(previousExpenses)) * 100)
             : currentExpenses > 0 ? 100 : 0;
 
         console.log("Expenses This Month API Response:", {
@@ -242,7 +242,7 @@ router.get("/net-savings", async (req, res) => {
 
         // Calculate percentage change
         const percentageChange = previousNetSavings !== 0
-            ? ((currentNetSavings - previousNetSavings) / Math.abs(previousNetSavings)) * 100
+            ? Math.round(((currentNetSavings - previousNetSavings) / Math.abs(previousNetSavings)) * 100)
             : currentNetSavings > 0 ? 100 : 0;
 
         console.log("Net Savings API Response:", {
