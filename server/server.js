@@ -4,17 +4,15 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const pool = require("./db");
 const bcrypt = require("bcryptjs");
-// const dashboardRoutes = require("./dashboardRoutes");
 
+console.log("reportsRoutes.js has been loaded!");
 
 const app = express();
 
 const corsOptions = {
-    // origin: "http://localhost:3000",
     origin: ["http://localhost:3000", "https://budgetguardian.vercel.app", "https://budget-guardian.vercel.app"], // Added Vercel
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
-    // allowedHeaders: ["Content-Type", "Authorization"],
     allowedHeaders: [
         "Content-Type",
         "Authorization",
@@ -26,22 +24,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
 app.options("*", cors(corsOptions));
-
-// app.use((req, res, next) => {
-//     // res.header("Access-Control-Allow-Origin", req.headers.origin);
-//     res.header("Access-Control-Allow-Origin", req.headers.origin || '*'); // Testing routes
-//     // res.header("Access-Control-Allow-Origin", "https://budgetguardian.vercel.app");
-//     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-//     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Cache-Control");
-//     res.header("Access-Control-Allow-Credentials", "true");
-
-//     if (req.method === "OPTIONS") {
-//         return res.sendStatus(200);
-//     }
-
-//     next();
-// })
 
 app.use((req, res, next) => {
     const allowedOrigins = [
@@ -70,6 +54,20 @@ app.use((req, res, next) => {
 
 
 app.use(express.json());
+
+const reportsRoutes = require("./reportsRoutes");
+
+console.log("Attaching reportsRoutes to /api/reports...");
+
+app.use("/api/reports", reportsRoutes);
+
+app._router.stack.forEach((middleware) => {
+    if (middleware.route) {
+        console.log(`Middleware Registered: ${middleware.route.path}`);
+    } else if (middleware.name === "router") {
+        console.log(`Router Middleware Registered: ${middleware.regexp}`);
+    }
+});
 
 app.get("/", (req, res) => {
     res.send("Backend is running!");
@@ -156,7 +154,6 @@ app.get("/api/transactions", async (req, res) => {
 });
 
 // Add a new transaction
-// Add a new transaction
 app.post("/api/transactions", async (req, res) => {
     try {
         const { transaction_date, category, place, amount, type } = req.body;
@@ -211,32 +208,6 @@ app.post("/api/transactions", async (req, res) => {
     }
 });
 
-
-
-
-
-
-
-
-// Get all unique budget categories for transactions
-// app.get("/api/budget-categories", async (req, res) => {
-//     try {
-//         const result = await pool.query("SELECT category FROM budget");
-
-//         let categories = result.rows.map((item) => item.category);
-
-//         // Income is always included no matter what is added from budgets
-//         if (!categories.includes("Income")) {
-//             categories.unshift("Income");
-//         }
-
-//         res.json(categories); // Chhanged from result.rows to show Income
-//     } catch (err) {
-//         console.error("Error fetching budget categories:", err.message);
-//         res.status(500).send("Server Error");
-//     }
-// });
-
 app.get("/api/budget-categories", async (req, res) => {
     try {
         const result = await pool.query("SELECT category FROM budget");
@@ -252,7 +223,6 @@ app.get("/api/budget-categories", async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
-
 
 // Get all budgets
 app.get("/api/budgets", async (req, res) => {
@@ -291,7 +261,6 @@ app.post("/api/budgets", async (req, res) => {
 
 // Middleware to verify JWT and extract user ID
 const authenticateUser = (req, res, next) => {
-    // const token = req.header("Authorization")?.split(" ")[1];
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
@@ -307,7 +276,7 @@ const authenticateUser = (req, res, next) => {
     }
 };
 
-// **Get logged-in user details**
+// Get logged in user details
 app.get("/api/user", authenticateUser, async (req, res) => {
     try {
         const userId = req.user.userID;
@@ -337,10 +306,8 @@ app.get("/api/user", authenticateUser, async (req, res) => {
 app.put("/api/user/update-name", authenticateUser, async (req, res) => {
     try {
         const userId = req.user.userID;
-        // const { newName } = req.body;
         const { full_name } = req.body;
 
-        // if (!newName || newName.trim() === "") {
             if (!full_name || full_name.trim() === "") {
             return res.status(400).json({ error: "New name cannot be empty." });
         }
@@ -348,7 +315,6 @@ app.put("/api/user/update-name", authenticateUser, async (req, res) => {
         // Update the user's name in the database
         const result = await pool.query(
             `UPDATE "user" SET full_name = $1 WHERE userID = $2 RETURNING full_name`,
-            // [newName, userId]
             [full_name, userId]
         );
 
@@ -409,7 +375,7 @@ app.put("/api/user/update-password", authenticateUser, async (req, res) => {
             return res.status(400).json({ error: "All fields are required." });
         }
 
-        // Fetch user's current password from the database
+        // Fetch user current password from the database
         const userQuery = await pool.query(
             `SELECT password_hash FROM "user" WHERE userID = $1`,
             [userId]
@@ -465,7 +431,6 @@ app._router.stack.forEach((r) => {
         console.log(`Available Route: ${r.route.path}`);
     }
 });
-
 
 const PORT = process.env.PORT || 10000; // Previously 5000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
