@@ -317,7 +317,9 @@ router.get("/budget-allocation", async (req, res) => {
                 COALESCE(SUM(t.amount), 0) AS spent
             FROM budget b
             LEFT JOIN transaction t 
-                ON LOWER(b.category) = LOWER(t.category) AND t.type = 'expense'
+                ON LOWER(b.category) = LOWER(t.category) 
+                AND t.type = 'expense' 
+                AND DATE_TRUNC('month', t.transaction_date) = DATE_TRUNC('month', NOW()) -- Current month filter
             WHERE LOWER(b.category) != 'income'  -- Exclude Income
             GROUP BY b.category, b.budgeted
             ORDER BY b.category ASC;
