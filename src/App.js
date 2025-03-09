@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Profile from "./pages/Profile";
 import Contact from "./pages/Contact";
@@ -36,6 +36,7 @@ function App() {
       {!hideSidebar && <Sidebar />} {/* Only show sidebar if NOT on login page */}
       <div className="content">
         <Routes>
+          <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/budget" element={<Budget />} />
