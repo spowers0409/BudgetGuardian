@@ -1,0 +1,282 @@
+ 
+2025-03-08T19:10:57.886Z - 🛠 Server restarted
+2025-03-08T19:11:48.461Z - 🛠 Server restarted
+2025-03-08T19:15:46.611Z - 🛠 Server restarted
+✅ Available Route: *
+✅ Available Route: /
+✅ Available Route: /api/transactions
+✅ Available Route: /auth/register
+✅ Available Route: /auth/login
+2025-03-08T19:16:33.911Z - 🛠 Server restarted
+✅ Available Route: *
+✅ Available Route: /
+✅ Available Route: /api/transactions
+✅ Available Route: /auth/register
+✅ Available Route: /auth/login
+2025-03-08T19:18:09.069Z - 🛰 Incoming Request: POST /auth/login
+2025-03-08T19:18:09.071Z - 🔄 Login route hit
+2025-03-08T19:18:09.110Z - ❌ Invalid credentials
+2025-03-08T19:18:47.236Z - 🛰 Incoming Request: POST /auth/login
+2025-03-08T19:18:47.237Z - 🔄 Login route hit
+2025-03-08T19:18:47.275Z - ❌ Invalid credentials
+2025-03-08T19:19:20.294Z - 🛰 Incoming Request: POST /auth/login
+2025-03-08T19:19:20.295Z - 🔄 Login route hit
+2025-03-08T19:19:20.337Z - ✅ Generated Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjMsInJhbmRvbSI6ImlxbGJqbyIsImlhdCI6MTc0MTQ2MTU2MCwiZXhwIjoxNzQxNDY1MTYwfQ.jas5WjIS2TmRCtBie_vFC51oeLEbafCs95Lf6zYWHsU
+2025-03-08T19:24:42.994Z - 🛰 Incoming Request: OPTIONS /api/dashboard/total-balance
+2025-03-08T19:24:42.995Z - 🛰 Incoming Request: OPTIONS /api/dashboard/recent-transactions
+2025-03-08T19:24:42.996Z - 🛰 Incoming Request: OPTIONS /api/dashboard/income-this-month
+2025-03-08T19:24:42.998Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses-this-month
+2025-03-08T19:24:42.999Z - 🛰 Incoming Request: OPTIONS /api/dashboard/net-savings
+2025-03-08T19:24:43.000Z - 🛰 Incoming Request: OPTIONS /api/dashboard/monthly-income-expenses
+2025-03-08T19:24:43.001Z - 🛰 Incoming Request: OPTIONS /api/dashboard/budget-allocation
+2025-03-08T19:24:43.002Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expense-breakdown
+2025-03-08T19:24:43.003Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses/monthly
+2025-03-08T19:24:43.011Z - 🛰 Incoming Request: GET /api/dashboard/total-balance
+2025-03-08T19:24:43.013Z - 🛰 Incoming Request: GET /api/dashboard/recent-transactions
+2025-03-08T19:24:43.015Z - 🛰 Incoming Request: GET /api/dashboard/income-this-month
+2025-03-08T19:24:43.016Z - 🛰 Incoming Request: GET /api/dashboard/expenses-this-month
+2025-03-08T19:24:43.018Z - 🛰 Incoming Request: GET /api/dashboard/net-savings
+2025-03-08T19:24:43.019Z - 🛰 Incoming Request: GET /api/dashboard/monthly-income-expenses
+2025-03-08T19:24:43.071Z - 🛰 Incoming Request: GET /api/dashboard/budget-allocation
+2025-03-08T19:24:43.077Z - 🛰 Incoming Request: GET /api/dashboard/expense-breakdown
+2025-03-08T19:24:43.079Z - 🛰 Incoming Request: GET /api/dashboard/expenses/monthly
+2025-03-08T19:24:48.826Z - 🛰 Incoming Request: OPTIONS /api/dashboard/total-balance
+2025-03-08T19:24:48.827Z - 🛰 Incoming Request: OPTIONS /api/dashboard/recent-transactions
+2025-03-08T19:24:48.827Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses/monthly
+2025-03-08T19:24:48.828Z - 🛰 Incoming Request: OPTIONS /api/dashboard/income-this-month
+2025-03-08T19:24:48.829Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses-this-month
+2025-03-08T19:24:48.829Z - 🛰 Incoming Request: OPTIONS /api/dashboard/net-savings
+2025-03-08T19:24:48.831Z - 🛰 Incoming Request: OPTIONS /api/dashboard/budget-allocation
+2025-03-08T19:24:48.832Z - 🛰 Incoming Request: OPTIONS /api/dashboard/monthly-income-expenses
+2025-03-08T19:24:48.833Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expense-breakdown
+2025-03-08T19:24:48.877Z - 🛰 Incoming Request: GET /api/dashboard/total-balance
+2025-03-08T19:24:48.879Z - 🛰 Incoming Request: GET /api/dashboard/recent-transactions
+2025-03-08T19:24:48.881Z - 🛰 Incoming Request: GET /api/dashboard/expenses/monthly
+2025-03-08T19:24:48.883Z - 🛰 Incoming Request: GET /api/dashboard/income-this-month
+2025-03-08T19:24:48.884Z - 🛰 Incoming Request: GET /api/dashboard/expenses-this-month
+2025-03-08T19:24:48.886Z - 🛰 Incoming Request: GET /api/dashboard/net-savings
+2025-03-08T19:24:48.891Z - 🛰 Incoming Request: GET /api/dashboard/budget-allocation
+2025-03-08T19:24:48.892Z - 🛰 Incoming Request: GET /api/dashboard/monthly-income-expenses
+2025-03-08T19:24:48.899Z - 🛰 Incoming Request: GET /api/dashboard/expense-breakdown
+2025-03-08T19:24:59.993Z - 🛰 Incoming Request: OPTIONS /api/dashboard/total-balance
+2025-03-08T19:24:59.993Z - 🛰 Incoming Request: OPTIONS /api/dashboard/net-savings
+2025-03-08T19:24:59.994Z - 🛰 Incoming Request: OPTIONS /api/dashboard/income-this-month
+2025-03-08T19:24:59.995Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses-this-month
+2025-03-08T19:24:59.997Z - 🛰 Incoming Request: OPTIONS /api/dashboard/recent-transactions
+2025-03-08T19:24:59.997Z - 🛰 Incoming Request: OPTIONS /api/dashboard/monthly-income-expenses
+2025-03-08T19:24:59.998Z - 🛰 Incoming Request: OPTIONS /api/dashboard/budget-allocation
+2025-03-08T19:24:59.999Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses/monthly
+2025-03-08T19:25:00.000Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expense-breakdown
+2025-03-08T19:25:00.000Z - 🛰 Incoming Request: GET /api/dashboard/total-balance
+2025-03-08T19:25:00.001Z - 🛰 Incoming Request: GET /api/dashboard/net-savings
+2025-03-08T19:25:00.002Z - 🛰 Incoming Request: GET /api/dashboard/income-this-month
+2025-03-08T19:25:00.003Z - 🛰 Incoming Request: GET /api/dashboard/expenses-this-month
+2025-03-08T19:25:00.004Z - 🛰 Incoming Request: GET /api/dashboard/recent-transactions
+2025-03-08T19:25:00.004Z - 🛰 Incoming Request: GET /api/dashboard/monthly-income-expenses
+2025-03-08T19:25:00.009Z - 🛰 Incoming Request: GET /api/dashboard/budget-allocation
+2025-03-08T19:25:00.011Z - 🛰 Incoming Request: GET /api/dashboard/expenses/monthly
+2025-03-08T19:25:00.012Z - 🛰 Incoming Request: GET /api/dashboard/expense-breakdown
+2025-03-08T19:25:01.330Z - 🛰 Incoming Request: GET /api/dashboard/total-balance
+2025-03-08T19:25:01.331Z - 🛰 Incoming Request: GET /api/dashboard/income-this-month
+2025-03-08T19:25:01.333Z - 🛰 Incoming Request: GET /api/dashboard/expenses-this-month
+2025-03-08T19:25:01.334Z - 🛰 Incoming Request: GET /api/dashboard/net-savings
+2025-03-08T19:25:01.335Z - 🛰 Incoming Request: GET /api/dashboard/monthly-income-expenses
+2025-03-08T19:25:01.336Z - 🛰 Incoming Request: GET /api/dashboard/budget-allocation
+2025-03-08T19:25:01.343Z - 🛰 Incoming Request: GET /api/dashboard/recent-transactions
+2025-03-08T19:25:01.345Z - 🛰 Incoming Request: GET /api/dashboard/expenses/monthly
+2025-03-08T19:25:01.346Z - 🛰 Incoming Request: GET /api/dashboard/expense-breakdown
+2025-03-08T19:25:05.332Z - 🛠 Server restarted
+✅ Available Route: *
+✅ Available Route: /
+✅ Available Route: /api/transactions
+✅ Available Route: /auth/register
+✅ Available Route: /auth/login
+2025-03-08T19:25:08.922Z - 🛰 Incoming Request: OPTIONS /api/dashboard/total-balance
+2025-03-08T19:25:08.926Z - 🛰 Incoming Request: OPTIONS /api/dashboard/recent-transactions
+2025-03-08T19:25:08.928Z - 🛰 Incoming Request: OPTIONS /api/dashboard/net-savings
+2025-03-08T19:25:08.929Z - 🛰 Incoming Request: OPTIONS /api/dashboard/income-this-month
+2025-03-08T19:25:08.930Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses-this-month
+2025-03-08T19:25:08.931Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses/monthly
+2025-03-08T19:25:08.932Z - 🛰 Incoming Request: OPTIONS /api/dashboard/monthly-income-expenses
+2025-03-08T19:25:08.933Z - 🛰 Incoming Request: OPTIONS /api/dashboard/budget-allocation
+2025-03-08T19:25:08.934Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expense-breakdown
+2025-03-08T19:25:08.935Z - 🛰 Incoming Request: GET /api/dashboard/total-balance
+2025-03-08T19:25:08.937Z - 🛰 Incoming Request: GET /api/dashboard/recent-transactions
+2025-03-08T19:25:08.938Z - 🛰 Incoming Request: GET /api/dashboard/net-savings
+2025-03-08T19:25:08.940Z - 🛰 Incoming Request: GET /api/dashboard/income-this-month
+2025-03-08T19:25:08.941Z - 🛰 Incoming Request: GET /api/dashboard/expenses-this-month
+2025-03-08T19:25:08.942Z - 🛰 Incoming Request: GET /api/dashboard/expenses/monthly
+2025-03-08T19:25:08.953Z - 🛰 Incoming Request: GET /api/dashboard/monthly-income-expenses
+2025-03-08T19:25:08.967Z - 🛰 Incoming Request: GET /api/dashboard/budget-allocation
+2025-03-08T19:25:09.000Z - 🛰 Incoming Request: GET /api/dashboard/expense-breakdown
+2025-03-08T19:25:21.536Z - 🛰 Incoming Request: OPTIONS /api/dashboard/total-balance
+2025-03-08T19:25:21.538Z - 🛰 Incoming Request: OPTIONS /api/dashboard/income-this-month
+2025-03-08T19:25:21.538Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses-this-month
+2025-03-08T19:25:21.539Z - 🛰 Incoming Request: OPTIONS /api/dashboard/net-savings
+2025-03-08T19:25:21.540Z - 🛰 Incoming Request: OPTIONS /api/dashboard/monthly-income-expenses
+2025-03-08T19:25:21.540Z - 🛰 Incoming Request: OPTIONS /api/dashboard/budget-allocation
+2025-03-08T19:25:21.541Z - 🛰 Incoming Request: OPTIONS /api/dashboard/recent-transactions
+2025-03-08T19:25:21.542Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses/monthly
+2025-03-08T19:25:21.543Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expense-breakdown
+2025-03-08T19:25:21.544Z - 🛰 Incoming Request: GET /api/dashboard/total-balance
+2025-03-08T19:25:21.545Z - 🛰 Incoming Request: GET /api/dashboard/income-this-month
+2025-03-08T19:25:21.546Z - 🛰 Incoming Request: GET /api/dashboard/expenses-this-month
+2025-03-08T19:25:21.547Z - 🛰 Incoming Request: GET /api/dashboard/net-savings
+2025-03-08T19:25:21.549Z - 🛰 Incoming Request: GET /api/dashboard/monthly-income-expenses
+2025-03-08T19:25:21.550Z - 🛰 Incoming Request: GET /api/dashboard/budget-allocation
+2025-03-08T19:25:21.560Z - 🛰 Incoming Request: GET /api/dashboard/recent-transactions
+2025-03-08T19:25:21.561Z - 🛰 Incoming Request: GET /api/dashboard/expenses/monthly
+2025-03-08T19:25:21.563Z - 🛰 Incoming Request: GET /api/dashboard/expense-breakdown
+2025-03-08T19:26:17.459Z - 🛰 Incoming Request: OPTIONS /api/dashboard/total-balance
+2025-03-08T19:26:17.461Z - 🛰 Incoming Request: OPTIONS /api/dashboard/income-this-month
+2025-03-08T19:26:17.462Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses-this-month
+2025-03-08T19:26:17.463Z - 🛰 Incoming Request: OPTIONS /api/dashboard/net-savings
+2025-03-08T19:26:17.464Z - 🛰 Incoming Request: OPTIONS /api/dashboard/monthly-income-expenses
+2025-03-08T19:26:17.465Z - 🛰 Incoming Request: OPTIONS /api/dashboard/budget-allocation
+2025-03-08T19:26:17.466Z - 🛰 Incoming Request: OPTIONS /api/dashboard/recent-transactions
+2025-03-08T19:26:17.469Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses/monthly
+2025-03-08T19:26:17.471Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expense-breakdown
+2025-03-08T19:26:17.472Z - 🛰 Incoming Request: GET /api/dashboard/total-balance
+2025-03-08T19:26:17.531Z - 🛰 Incoming Request: GET /api/dashboard/income-this-month
+2025-03-08T19:26:17.541Z - 🛰 Incoming Request: GET /api/dashboard/expenses-this-month
+2025-03-08T19:26:17.547Z - 🛰 Incoming Request: GET /api/dashboard/net-savings
+2025-03-08T19:26:17.555Z - 🛰 Incoming Request: GET /api/dashboard/monthly-income-expenses
+2025-03-08T19:26:17.563Z - 🛰 Incoming Request: GET /api/dashboard/budget-allocation
+2025-03-08T19:26:17.613Z - 🛰 Incoming Request: GET /api/dashboard/recent-transactions
+2025-03-08T19:26:17.618Z - 🛰 Incoming Request: GET /api/dashboard/expenses/monthly
+2025-03-08T19:26:17.625Z - 🛰 Incoming Request: GET /api/dashboard/expense-breakdown
+2025-03-08T19:26:22.999Z - 🛰 Incoming Request: OPTIONS /api/dashboard/total-balance
+2025-03-08T19:26:23.002Z - 🛰 Incoming Request: OPTIONS /api/dashboard/income-this-month
+2025-03-08T19:26:23.003Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses-this-month
+2025-03-08T19:26:23.004Z - 🛰 Incoming Request: OPTIONS /api/dashboard/net-savings
+2025-03-08T19:26:23.006Z - 🛰 Incoming Request: OPTIONS /api/dashboard/monthly-income-expenses
+2025-03-08T19:26:23.009Z - 🛰 Incoming Request: OPTIONS /api/dashboard/budget-allocation
+2025-03-08T19:26:23.010Z - 🛰 Incoming Request: OPTIONS /api/dashboard/recent-transactions
+2025-03-08T19:26:23.011Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses/monthly
+2025-03-08T19:26:23.012Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expense-breakdown
+2025-03-08T19:26:23.013Z - 🛰 Incoming Request: GET /api/dashboard/total-balance
+2025-03-08T19:26:23.015Z - 🛰 Incoming Request: GET /api/dashboard/income-this-month
+2025-03-08T19:26:23.018Z - 🛰 Incoming Request: GET /api/dashboard/expenses-this-month
+2025-03-08T19:26:23.019Z - 🛰 Incoming Request: GET /api/dashboard/net-savings
+2025-03-08T19:26:23.019Z - 🛰 Incoming Request: GET /api/dashboard/monthly-income-expenses
+2025-03-08T19:26:23.021Z - 🛰 Incoming Request: GET /api/dashboard/budget-allocation
+2025-03-08T19:26:23.027Z - 🛰 Incoming Request: GET /api/dashboard/recent-transactions
+2025-03-08T19:26:23.028Z - 🛰 Incoming Request: GET /api/dashboard/expenses/monthly
+2025-03-08T19:26:23.030Z - 🛰 Incoming Request: GET /api/dashboard/expense-breakdown
+2025-03-08T19:32:21.467Z - 🛠 Server restarted
+✅ Available Route: *
+✅ Available Route: /
+✅ Available Route: /api/transactions
+✅ Available Route: /auth/register
+✅ Available Route: /auth/login
+2025-03-08T19:33:38.548Z - 🛠 Server restarted
+✅ Available Route: *
+✅ Available Route: /
+✅ Available Route: /api/transactions
+✅ Available Route: /auth/register
+✅ Available Route: /auth/login
+2025-03-08T19:35:25.468Z - 🛠 Server restarted
+✅ Available Route: *
+✅ Available Route: /
+✅ Available Route: /api/transactions
+✅ Available Route: /auth/register
+✅ Available Route: /auth/login
+✅ Available Route: *
+✅ Available Route: /
+✅ Available Route: /api/transactions
+✅ Available Route: /auth/register
+✅ Available Route: /auth/login
+2025-03-08T19:51:08.568Z - 🛰 Incoming Request: OPTIONS /api/dashboard/total-balance
+2025-03-08T19:51:08.575Z - 🛰 Incoming Request: OPTIONS /api/dashboard/recent-transactions
+2025-03-08T19:51:08.576Z - 🛰 Incoming Request: OPTIONS /api/dashboard/net-savings
+2025-03-08T19:51:08.577Z - 🛰 Incoming Request: OPTIONS /api/dashboard/income-this-month
+2025-03-08T19:51:08.578Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses-this-month
+2025-03-08T19:51:08.579Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses/monthly
+2025-03-08T19:51:08.580Z - 🛰 Incoming Request: OPTIONS /api/dashboard/monthly-income-expenses
+2025-03-08T19:51:08.581Z - 🛰 Incoming Request: OPTIONS /api/dashboard/budget-allocation
+2025-03-08T19:51:08.583Z - 🛰 Incoming Request: GET /api/dashboard/recent-transactions
+2025-03-08T19:51:08.586Z - 🛰 Incoming Request: GET /api/dashboard/expenses-this-month
+2025-03-08T19:51:08.588Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expense-breakdown
+2025-03-08T19:51:08.589Z - 🛰 Incoming Request: GET /api/dashboard/total-balance
+2025-03-08T19:51:08.591Z - 🛰 Incoming Request: GET /api/dashboard/net-savings
+2025-03-08T19:51:08.592Z - 🛰 Incoming Request: GET /api/dashboard/income-this-month
+2025-03-08T19:51:08.594Z - 🛰 Incoming Request: GET /api/dashboard/expenses/monthly
+2025-03-08T19:51:08.648Z - 🛰 Incoming Request: GET /api/dashboard/monthly-income-expenses
+2025-03-08T19:51:08.668Z - 🛰 Incoming Request: GET /api/dashboard/budget-allocation
+2025-03-08T19:51:08.672Z - 🛰 Incoming Request: GET /api/dashboard/expense-breakdown
+✅ Available Route: *
+✅ Available Route: /
+✅ Available Route: /api/transactions
+✅ Available Route: /auth/register
+✅ Available Route: /auth/login
+2025-03-08T19:55:05.354Z - 🛰 Incoming Request: OPTIONS /api/dashboard/total-balance
+2025-03-08T19:55:05.359Z - 🛰 Incoming Request: OPTIONS /api/dashboard/recent-transactions
+2025-03-08T19:55:05.362Z - 🛰 Incoming Request: OPTIONS /api/dashboard/income-this-month
+2025-03-08T19:55:05.364Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses-this-month
+2025-03-08T19:55:05.366Z - 🛰 Incoming Request: OPTIONS /api/dashboard/net-savings
+2025-03-08T19:55:05.367Z - 🛰 Incoming Request: OPTIONS /api/dashboard/monthly-income-expenses
+2025-03-08T19:55:05.368Z - 🛰 Incoming Request: OPTIONS /api/dashboard/budget-allocation
+2025-03-08T19:55:05.369Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses/monthly
+2025-03-08T19:55:05.370Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expense-breakdown
+2025-03-08T19:55:05.372Z - 🛰 Incoming Request: GET /api/dashboard/total-balance
+2025-03-08T19:55:05.375Z - 🛰 Incoming Request: GET /api/dashboard/recent-transactions
+2025-03-08T19:55:05.378Z - 🛰 Incoming Request: GET /api/dashboard/income-this-month
+2025-03-08T19:55:05.380Z - 🛰 Incoming Request: GET /api/dashboard/monthly-income-expenses
+2025-03-08T19:55:05.381Z - 🛰 Incoming Request: GET /api/dashboard/expenses-this-month
+2025-03-08T19:55:05.382Z - 🛰 Incoming Request: GET /api/dashboard/net-savings
+2025-03-08T19:55:05.391Z - 🛰 Incoming Request: GET /api/dashboard/budget-allocation
+2025-03-08T19:55:05.399Z - 🛰 Incoming Request: GET /api/dashboard/expenses/monthly
+2025-03-08T19:55:05.413Z - 🛰 Incoming Request: GET /api/dashboard/expense-breakdown
+2025-03-08T19:56:27.590Z - 🛰 Incoming Request: GET /api/transactions
+✅ Available Route: *
+✅ Available Route: /
+✅ Available Route: /api/transactions
+✅ Available Route: /auth/register
+✅ Available Route: /auth/login
+✅ Available Route: *
+✅ Available Route: /
+✅ Available Route: /api/transactions
+✅ Available Route: /auth/register
+✅ Available Route: /auth/login
+2025-03-08T19:59:30.999Z - 🛰 Incoming Request: OPTIONS /api/dashboard/total-balance
+2025-03-08T19:59:31.009Z - 🛰 Incoming Request: OPTIONS /api/dashboard/recent-transactions
+2025-03-08T19:59:31.013Z - 🛰 Incoming Request: OPTIONS /api/dashboard/income-this-month
+2025-03-08T19:59:31.014Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses-this-month
+2025-03-08T19:59:31.016Z - 🛰 Incoming Request: OPTIONS /api/dashboard/net-savings
+2025-03-08T19:59:31.018Z - 🛰 Incoming Request: OPTIONS /api/dashboard/monthly-income-expenses
+2025-03-08T19:59:31.020Z - 🛰 Incoming Request: OPTIONS /api/dashboard/budget-allocation
+2025-03-08T19:59:31.022Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses/monthly
+2025-03-08T19:59:31.024Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expense-breakdown
+2025-03-08T19:59:31.026Z - 🛰 Incoming Request: GET /api/dashboard/total-balance
+2025-03-08T19:59:31.029Z - 🛰 Incoming Request: GET /api/dashboard/recent-transactions
+2025-03-08T19:59:31.032Z - 🛰 Incoming Request: GET /api/dashboard/income-this-month
+2025-03-08T19:59:31.034Z - 🛰 Incoming Request: GET /api/dashboard/expenses-this-month
+2025-03-08T19:59:31.036Z - 🛰 Incoming Request: GET /api/dashboard/net-savings
+2025-03-08T19:59:31.038Z - 🛰 Incoming Request: GET /api/dashboard/monthly-income-expenses
+2025-03-08T19:59:31.050Z - 🛰 Incoming Request: GET /api/dashboard/budget-allocation
+2025-03-08T19:59:31.060Z - 🛰 Incoming Request: GET /api/dashboard/expenses/monthly
+2025-03-08T19:59:31.075Z - 🛰 Incoming Request: GET /api/dashboard/expense-breakdown
+✅ Available Route: *
+✅ Available Route: /
+✅ Available Route: /api/transactions
+✅ Available Route: /auth/register
+✅ Available Route: /auth/login
+2025-03-08T20:02:10.236Z - 🛰 Incoming Request: OPTIONS /api/dashboard/total-balance
+2025-03-08T20:02:10.242Z - 🛰 Incoming Request: OPTIONS /api/dashboard/recent-transactions
+2025-03-08T20:02:10.243Z - 🛰 Incoming Request: OPTIONS /api/dashboard/income-this-month
+2025-03-08T20:02:10.245Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses-this-month
+2025-03-08T20:02:10.246Z - 🛰 Incoming Request: OPTIONS /api/dashboard/net-savings
+2025-03-08T20:02:10.247Z - 🛰 Incoming Request: OPTIONS /api/dashboard/monthly-income-expenses
+2025-03-08T20:02:10.248Z - 🛰 Incoming Request: OPTIONS /api/dashboard/budget-allocation
+2025-03-08T20:02:10.249Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expenses/monthly
+2025-03-08T20:02:10.250Z - 🛰 Incoming Request: OPTIONS /api/dashboard/expense-breakdown
+2025-03-08T20:02:10.252Z - 🛰 Incoming Request: GET /api/dashboard/total-balance
+2025-03-08T20:02:10.254Z - 🛰 Incoming Request: GET /api/dashboard/recent-transactions
+2025-03-08T20:02:10.256Z - 🛰 Incoming Request: GET /api/dashboard/income-this-month
+2025-03-08T20:02:10.258Z - 🛰 Incoming Request: GET /api/dashboard/expenses-this-month
+2025-03-08T20:02:10.259Z - 🛰 Incoming Request: GET /api/dashboard/net-savings
+2025-03-08T20:02:10.261Z - 🛰 Incoming Request: GET /api/dashboard/monthly-income-expenses
+2025-03-08T20:02:10.332Z - 🛰 Incoming Request: GET /api/dashboard/budget-allocation
+2025-03-08T20:02:10.338Z - 🛰 Incoming Request: GET /api/dashboard/expenses/monthly
+2025-03-08T20:02:10.340Z - 🛰 Incoming Request: GET /api/dashboard/expense-breakdown
+2025-03-08T20:03:49.463Z - 🛰 Incoming Request: GET /api/transactions

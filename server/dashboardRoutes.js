@@ -66,7 +66,7 @@ router.get("/total-balance", async (req, res) => {
 
         // Calculate percentage change
         const percentageChange = previousBalance !== 0
-            ? ((totalBalance - previousBalance) / Math.abs(previousBalance)) * 100
+            ? Math.round(((totalBalance - previousBalance) / Math.abs(previousBalance)) * 100)
             : 0;
 
 
