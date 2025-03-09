@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import NetSavingsCard from "../components/NetSavingsCard";
 import DashboardCard from "../components/DashboardCard";
 import "../styles/Dashboard.css";
 import MonthlyIncomeExpensesChart from "../components/MonthlyIncomeExpensesChart";
@@ -31,6 +32,12 @@ const Dashboard = () => {
 
     const [expenseBreakdown, setExpenseBreakdown] = useState([]);
     const [totalExpenses, setTotalExpenses] = useState(0);
+
+    // ML Model cards
+    const [pastSavings, setPastSavings] = useState([]);
+    const [showNetSavingsTrend, setShowNetSavingsTrend] = useState(false);
+    const toggleNetSavingsView = () => setShowNetSavingsTrend(!showNetSavingsTrend);
+
 
     const API_BASE_URL = window.location.hostname === "localhost"
         ? "http://localhost:10000/api/dashboard"
@@ -74,16 +81,32 @@ const Dashboard = () => {
     }, [API_BASE_URL]);
 
     // Fetch Net Savings
+    // Fetch ML Net Savings
     const fetchNetSavings = useCallback(async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/net-savings`);
             const data = await response.json();
+            console.log("✅ API Response for Net Savings:", data);
             setNetSavings(data.currentNetSavings ?? 0);
             setSavingsChange(data.percentageChange ?? 0);
+            setPastSavings(data.pastSavings ?? []);
         } catch (error) {
             console.error("Error fetching net savings:", error);
         }
     }, [API_BASE_URL]);
+    
+
+    // Working fetch
+    // const fetchNetSavings = useCallback(async () => {
+    //     try {
+    //         const response = await fetch(`${API_BASE_URL}/net-savings`);
+    //         const data = await response.json();
+    //         setNetSavings(data.currentNetSavings ?? 0);
+    //         setSavingsChange(data.percentageChange ?? 0);
+    //     } catch (error) {
+    //         console.error("Error fetching net savings:", error);
+    //     }
+    // }, [API_BASE_URL]);
 
     // Fetch Monthly Data
     const fetchMonthlyData = useCallback(async () => {
@@ -222,12 +245,23 @@ const Dashboard = () => {
                     percentage={expensesChange}
                     icon="/icons/expenses.png"
                 />
-                <DashboardCard
-                    title="Net Savings"
-                    amount={formatCurrency(netSavings)}
-                    percentage={savingsChange}
-                    icon="/icons/savings.png"
-                />
+                <div className={`card-container ${showNetSavingsTrend ? "flipped" : ""}`}>
+                    {!showNetSavingsTrend ? (
+                        <DashboardCard
+                            title="Net Savings"
+                            amount={formatCurrency(netSavings)}
+                            percentage={savingsChange}
+                            icon="/icons/savings.png"
+                            onToggle={toggleNetSavingsView} // Flip to ML view
+                        />
+                    ) : (
+                        <NetSavingsCard 
+                            netSavings={netSavings}  
+                            pastSavings={pastSavings ?? []}  
+                            onToggle={toggleNetSavingsView} // Flip back
+                        />
+                    )}
+                </div>
             </div>
 
             {/* Row 2 - Chart Cards */}

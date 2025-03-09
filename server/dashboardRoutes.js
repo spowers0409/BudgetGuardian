@@ -240,6 +240,21 @@ router.get("/net-savings", async (req, res) => {
         // Calculate Net Savings for the previous month
         const previousNetSavings = previousIncome - previousExpenses;
 
+        // Fetch Net Savings for the Last 6 Months
+        const pastSavingsResult = await pool.query(`
+            SELECT 
+                DATE_TRUNC('month', transaction_date) AS month, 
+                COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0) - 
+                COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0) AS netSavings
+            FROM transaction
+            WHERE transaction_date >= date_trunc('month', CURRENT_DATE - INTERVAL '6 months')
+            GROUP BY month
+            ORDER BY month ASC;
+        `);
+
+        // Extract past savings values
+        const pastSavings = pastSavingsResult.rows.map(row => parseFloat(row.netsavings));
+
         // Calculate percentage change
         const percentageChange = previousNetSavings !== 0
             ? Math.round(((currentNetSavings - previousNetSavings) / Math.abs(previousNetSavings)) * 100)
@@ -248,13 +263,15 @@ router.get("/net-savings", async (req, res) => {
         console.log("Net Savings API Response:", {
             currentNetSavings,
             previousNetSavings,
-            percentageChange
+            percentageChange,
+            pastSavings
         });
 
         res.json({
             currentNetSavings,
             previousNetSavings,
-            percentageChange
+            percentageChange,
+            pastSavings
         });
 
     } catch (error) {
