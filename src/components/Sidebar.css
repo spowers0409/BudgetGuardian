@@ -2,7 +2,7 @@
   position: fixed;
   left: 0;
   top: 0;
-  height: 100vh;
+  height: 100vh; /* Full viewport height */
   width: 200px;
   background-color: #FFFFFF;
   display: flex;
@@ -11,6 +11,7 @@
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+  overflow: hidden;
 }
 
 /* Sidebar Content Wrapper */
@@ -27,12 +28,6 @@
   gap: 10px;
   padding-bottom: 15px;
 }
-
-/* .sidebar-logo-img {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-} */
 
 .no-invert-logo {
   width: 45px;
@@ -86,15 +81,13 @@ nav ul li a:hover {
 .sidebar-user {
   font-weight: bold;
   text-align: center;
-  padding: 12px 0;
-  border-top: 1px solid #ddd;
-  margin-top: auto;
+  padding: 4px 0;
   color: #333;
   font-size: 14px;
-  position: absolute;
-  bottom: 40px;
-  left: 0;
-  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
 }
 
 #sidebar hr {
@@ -122,10 +115,34 @@ nav ul li a:hover {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  margin-right: 8px;
+  margin-bottom: 0px;
 }
 
+.sidebar-bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 25px;
+}
 
+.logout-button {
+  width: 90%;
+  background: none;
+  border: 1px solid #af93d7;
+  border-radius: 5px;
+  color: #333;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  padding: 10px;
+  text-align: center;
+  margin: 5px 0;
+  transition: background 0.3s ease-in-out;
+}
 
-
-
+.logout-button:hover {
+  background-color: rgba(175, 147, 215, 0.1);
+}

@@ -1,16 +1,25 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 // import { Link, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 
 function Sidebar() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const icons = {
     goals: {
     default: "/icons/goals.png",
     active: "/icons/goals_purple.png",
     },
+  };
+
+  const handleLogout = () => {
+    console.log("Logging out..");
+
+    localStorage.removeItem("token");
+
+    navigate("/login");
   };
 
   return (
@@ -67,10 +76,15 @@ function Sidebar() {
         </ul>
       </nav>
 
-      <hr className="section-divider" />
-      <div className="sidebar-user">
-        <img src="/icons/profile.png" alt="User" className="sidebar-user-icon" />
-        <span>Samuel P.</span>
+      <div className="sidebar-bottom">
+        <hr className="section-divider" />
+        <div className="sidebar-user">
+          <img src="/icons/profile.png" alt="User" className="sidebar-user-icon" />
+          <span>Samuel P.</span>
+        </div>
+        <button className="logout-button" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
     </div>
   );
