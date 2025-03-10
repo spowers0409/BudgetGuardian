@@ -69,11 +69,6 @@ const GoalsProgressChart = ({ updateDashboardData }) => {
     }
 };
 
-
-
-
-
-
   return (
     <div className="goals-progress-container">
       <div className="goals-progress-list">
@@ -134,62 +129,3 @@ const GoalsProgressChart = ({ updateDashboardData }) => {
 };
 
 export default GoalsProgressChart;
-
-
-
-
-
-// import React, { useEffect, useState } from "react";
-// import "../styles/Dashboard.css";
-
-// const GoalsProgressChart = () => {
-//   const [goals, setGoals] = useState([]);
-
-//   useEffect(() => {
-//     const fetchGoals = async () => {
-//       try {
-//         const response = await fetch("https://budgetguardian-backend.onrender.com/api/dashboard/goals");
-//         if (!response.ok) throw new Error("Failed to fetch goals");
-
-//         const data = await response.json();
-//         console.log("Fetched Goals:", data);
-//         setGoals(data);
-//       } catch (error) {
-//         console.error("Error fetching goals:", error);
-//       }
-//     };
-
-//     fetchGoals();
-//   }, []);
-
-//   return (
-//     <div className="goals-progress-container">
-//       <div className="goals-progress-list">
-//         {goals.map((goal) => {
-//           const progressPercentage = goal.target_amount
-//             ? (goal.saved_amount / goal.target_amount) * 100
-//             : 0; // Prevent NaN if target_amount is 0
-
-//           return (
-//             <div className="goal-item" key={goal.goal_id}>
-//               <div className="goal-info">
-//                 <span className="goal-name">{goal.goal_name}</span>
-//                 <span className="goal-progress">
-//                   ${goal.saved_amount.toLocaleString()} / ${goal.target_amount.toLocaleString()}
-//                 </span>
-//               </div>
-//               <div className="progress-bar">
-//                 <div
-//                   className="progress-fill"
-//                   style={{ width: `${progressPercentage}%` }}
-//                 ></div>
-//               </div>
-//             </div>
-//           );
-//         })}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default GoalsProgressChart;

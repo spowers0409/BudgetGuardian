@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/Profile.css"; // Ensuring styles are included
+import "../styles/Profile.css";
 
 const ChangeNameModal = ({ isOpen, onClose, currentName, onNameChange }) => {
     const [newName, setNewName] = useState(currentName || "");

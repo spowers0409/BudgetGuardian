@@ -8,17 +8,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  // const handleLogin = (e) => {
-  //   e.preventDefault();
-
-  //   Placeholder authentication check
-  //   if (email === "test@example.com" && password === "password123") {
-  //     navigate("/dashboard"); // Redirect to Dashboard on successful login
-  //   } else {
-  //     setError("Invalid email or password.");
-  //   }
-  // };
-
   console.log("Sending data:", { email, password });
 
   const handleLogin = async (e) => {

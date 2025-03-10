@@ -18,7 +18,7 @@ const Profile = () => {
 
   const fetchUserData = async () => {
     try {
-        const token = localStorage.getItem("token"); // Ensure token is retrieved
+        const token = localStorage.getItem("token");
         console.log("Fetching user data with token:", token);
 
         // const response = await fetch("http://localhost:5000/api/user", {  // Ensure correct URL

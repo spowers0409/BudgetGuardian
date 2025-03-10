@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-// import { Link, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 
 function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
+  const [userName, setUserName] = useState("Loading..");
 
   const icons = {
     goals: {
@@ -21,6 +21,57 @@ function Sidebar() {
 
     navigate("/login");
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        console.log("Sidebar: Retrieved token from localStorage:", token);
+
+        if (!token) {
+          console.warn("⚠ No token found! Setting user as Guest.");
+          setUserName("Guest");
+          return;
+        }
+
+        const response = await fetch("https://budgetguardian-backend.onrender.com/api/user", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+
+        console.log("🔍 Sidebar: API Response Status:", response.status);
+
+        if (!response.ok) {
+          console.error("Sidebar: Failed to fetch user data");
+          setUserName("Guest");
+          return;
+        }
+
+        const textResponse = await response.text();
+        console.log("Sidebar: Raw Response:", textResponse);
+
+        const data = JSON.parse(textResponse);
+        console.log("Sidebar: Fetched User Data:", data);
+
+        if (data.full_name) {
+          setUserName(data.full_name);
+        } else {
+          console.warn("Sidebar: No valid name received, setting user as Guest.");
+          setUserName("Guest");
+        }
+      } catch (error) {
+        console.error("Sidebar: Error fetching user:", error);
+        setUserName("Guest");
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
 
   return (
     <div id="sidebar">
@@ -79,13 +130,17 @@ function Sidebar() {
       <div className="sidebar-bottom">
         <hr className="section-divider" />
         <div className="sidebar-user">
+
           <img src="/icons/profile.png" alt="User" className="sidebar-user-icon" />
-          <span>Samuel P.</span>
+          <span>{userName}</span>
         </div>
+        
         <button className="logout-button" onClick={handleLogout}>
           Logout
         </button>
       </div>
+
+
     </div>
   );
 }

@@ -14,10 +14,10 @@ import { useState, useEffect } from "react";
 import "./global.css";
 
 function App() {
-  const location = useLocation(); // Get current URL path
-  console.log("Current Path:", location.pathname); // Debugging log
+  const location = useLocation();
+  console.log("Current Path:", location.pathname);
   const hideSidebar = location.pathname.toLowerCase() === "/login" || location.pathname.toLowerCase() === "/register"; 
-  console.log("Hide Sidebar:", hideSidebar); // Debugging log
+  console.log("Hide Sidebar:", hideSidebar);
 
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("darkMode") === "true";

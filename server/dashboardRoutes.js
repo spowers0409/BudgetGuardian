@@ -34,14 +34,6 @@ router.get("/total-balance", async (req, res) => {
         const totalBalance = totalIncome - totalExpenses;
         console.log("Calculated Total Balance:", totalBalance);
 
-        // Fetch previous month's balance
-        // const previousBalanceResult = await pool.query(`
-        //     SELECT COALESCE(SUM(amount), 0) AS previous_balance 
-        //     FROM transaction 
-        //     WHERE transaction_date >= date_trunc('month', CURRENT_DATE - INTERVAL '1 month') 
-        //     AND transaction_date < date_trunc('month', CURRENT_DATE)
-        // `);
-        // const previousBalance = parseFloat(previousBalanceResult.rows[0].previous_balance);
         const previousIncomeResult = await pool.query(`
             SELECT COALESCE(SUM(amount), 0) AS previous_income
             FROM transaction
@@ -59,10 +51,7 @@ router.get("/total-balance", async (req, res) => {
 
         const prevIncome = parseFloat(previousIncomeResult.rows[0]?.previous_income || 0);
         const prevExpenses = parseFloat(previousExpensesResult.rows[0]?.previous_expenses || 0);
-        const previousBalance = prevIncome - prevExpenses;
-
-        // const previousBalance = parseFloat(previousIncomeResult.rows[0].previous_income) - parseFloat(previousExpensesResult.rows[0].previous_expenses);
-        
+        const previousBalance = prevIncome - prevExpenses;        
 
         // Calculate percentage change
         const percentageChange = previousBalance !== 0
@@ -77,10 +66,7 @@ router.get("/total-balance", async (req, res) => {
             previousBalance,
             percentageChange,
         });
-            
-        // Send fresh JSON response
-        // res.setHeader("Content-Type", "application/json");
-        // res.status(200).json({
+
         res.json({
             totalIncome,
             totalExpenses,
@@ -374,16 +360,6 @@ router.get("/debug-database", async (req, res) => {
     }
 });
 
-// router.get("/goals", async (req, res) => {
-//     try {
-//         console.log("Fetching all goals...");
-//         const result = await pool.query(`SELECT * FROM goal ORDER BY goal_id ASC;`);
-//         res.json(result.rows);
-//     } catch (error) {
-//         console.error("Error fetching goals:", error);
-//         res.status(500).json({ error: "Internal Server Error" });
-//     }
-// });
 
 router.get("/goals", async (req, res) => {
     try {
@@ -408,23 +384,6 @@ router.get("/goals", async (req, res) => {
         res.status(500).json({ error: "Internal Server Error", details: error.message });
     }
 });
-
-
-
-// Router debug
-// router.get("/goals", async (req, res) => {
-//     try {
-//         console.log("Testing basic SQL query...");
-//         const result = await pool.query("SELECT NOW();");  // Simple query to test DB connection
-//         console.log("Database response:", result.rows);
-//         res.json(result.rows);
-//     } catch (error) {
-//         console.error("Error in test route:", error);
-//         res.status(500).json({ error: "Internal Server Error", details: error.message });
-//     }
-// });
-
-
 
 router.post("/goals", async (req, res) => {
     try {
@@ -454,9 +413,6 @@ router.post("/goals", async (req, res) => {
     }
 });
 
-
-
-
 router.put("/goals/:id/add-savings", async (req, res) => {
     try {
         const { id } = req.params;
@@ -479,12 +435,6 @@ router.put("/goals/:id/add-savings", async (req, res) => {
         );
 
         console.log("Goal Updated:", updatedGoal.rows[0]);
-
-        // Deduct from Total Balance
-        // await pool.query(
-        //     `UPDATE transaction SET amount = amount - $1 WHERE type = 'income' RETURNING *`,
-        //     [amount]
-        // );
 
         // Add to Expenses This Month
         await pool.query(
@@ -543,7 +493,7 @@ router.get("/expense-breakdown", async (req, res) => {
 
         // Get current year and month dynamically
         const currentYear = new Date().getFullYear();
-        const currentMonth = new Date().getMonth() + 1; // JavaScript months are 0-based
+        const currentMonth = new Date().getMonth() + 1;
 
         // Query to get total expenses by category for the current month
         const result = await pool.query(`

@@ -28,21 +28,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
-// app.use((req, res, next) => {
-//     // res.header("Access-Control-Allow-Origin", req.headers.origin);
-//     res.header("Access-Control-Allow-Origin", req.headers.origin || '*'); // Testing routes
-//     // res.header("Access-Control-Allow-Origin", "https://budgetguardian.vercel.app");
-//     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-//     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Cache-Control");
-//     res.header("Access-Control-Allow-Credentials", "true");
-
-//     if (req.method === "OPTIONS") {
-//         return res.sendStatus(200);
-//     }
-
-//     next();
-// })
-
 app.use((req, res, next) => {
     const allowedOrigins = [
         "http://localhost:3000",
@@ -64,10 +49,6 @@ app.use((req, res, next) => {
 
     next();
 });
-
-
-
-
 
 app.use(express.json());
 
@@ -156,7 +137,6 @@ app.get("/api/transactions", async (req, res) => {
 });
 
 // Add a new transaction
-// Add a new transaction
 app.post("/api/transactions", async (req, res) => {
     try {
         const { transaction_date, category, place, amount, type } = req.body;
@@ -171,7 +151,7 @@ app.post("/api/transactions", async (req, res) => {
         // Ensure "Income" category is always valid
         let transactionCategory = category;
         if (type === 'income') {
-            transactionCategory = "Income"; // Force "Income" as category for income transactions
+            transactionCategory = "Income";
         }
 
         // Insert the transaction
@@ -193,7 +173,7 @@ app.post("/api/transactions", async (req, res) => {
 
         console.log("Transaction Saved in DB:", newTransaction.rows[0]);
 
-        // Update spent amount in budget table **only if it's an expense**
+        // Update spent amount in budget table (only if it's an expense)
         if (type === 'expense') {
             await pool.query(
                 `UPDATE budget 
@@ -211,32 +191,6 @@ app.post("/api/transactions", async (req, res) => {
     }
 });
 
-
-
-
-
-
-
-
-// Get all unique budget categories for transactions
-// app.get("/api/budget-categories", async (req, res) => {
-//     try {
-//         const result = await pool.query("SELECT category FROM budget");
-
-//         let categories = result.rows.map((item) => item.category);
-
-//         // Income is always included no matter what is added from budgets
-//         if (!categories.includes("Income")) {
-//             categories.unshift("Income");
-//         }
-
-//         res.json(categories); // Chhanged from result.rows to show Income
-//     } catch (err) {
-//         console.error("Error fetching budget categories:", err.message);
-//         res.status(500).send("Server Error");
-//     }
-// });
-
 app.get("/api/budget-categories", async (req, res) => {
     try {
         const result = await pool.query("SELECT category FROM budget");
@@ -252,7 +206,6 @@ app.get("/api/budget-categories", async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
-
 
 // Get all budgets
 app.get("/api/budgets", async (req, res) => {
@@ -291,7 +244,6 @@ app.post("/api/budgets", async (req, res) => {
 
 // Middleware to verify JWT and extract user ID
 const authenticateUser = (req, res, next) => {
-    // const token = req.header("Authorization")?.split(" ")[1];
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
