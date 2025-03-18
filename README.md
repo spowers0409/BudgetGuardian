@@ -4,7 +4,7 @@
 
 ## Pre-Production Deployment
 
-- **Frontend:** [BudgetGuardian on Vercel](https://budget-guardian.vercel.app)
+- **Frontend:** [BudgetGuardian on Vercel](https://budget-guardian.vercel.app/dashboard)
 - **Backend:** [BudgetGuardian API on Render](https://budgetguardian-backend.onrender.com)
 
 ## Screenshots
